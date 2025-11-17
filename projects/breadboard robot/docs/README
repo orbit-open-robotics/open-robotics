@@ -9,4 +9,14 @@ to add a subclass strategy for those that do
 
 ## Autonomous Robot Control
 robot.py - Robot class that can be programmed by a student, as opposed to being controlled by remote control.  Eventually the plan is to 
-add the capability to switch between RC and autonomous modes
+add the capability to switch between RC and autonomous modes (See Robot project)
+
+## Uses
+- BLEClient
+- Buzzer
+- Servo (optional)
+
+## TODO
+- Provide links to the OnShape design (and stl and 3mf files?)
+- Capability to move forward by a given amount, and turn by a given angle
+- Distance Sensor
