@@ -28,6 +28,7 @@ while True:
         s.write(180)
         sleep(1)
         s.write(90)
+        s.off()
         continue
     
     for ang in values[1:]:
@@ -36,6 +37,7 @@ while True:
             continue
         s.write(int(ang))
         sleep(1)
+    s.off()
 
     
 print('Test concluded.')
