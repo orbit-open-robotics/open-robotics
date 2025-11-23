@@ -1,20 +1,21 @@
 # Breadboard Robot
+The breadboasrd robot is a simple-as-possible robot that is built using breadboards and 3D printed parts.
+- No soldering necessary
+- Reference 3D printed parts are available, but students are encouraged to design their own parts
+- Students are encouraged to add their own capabilities to the robot. One example is  rubber-band launcher.
 
-The files herein are intended to support two different modes of running the breadboard robot
-
-## Remote Control
-rc_robot_main.py - This program uses BluetoothClient and Buzzer library classes. The idea is to walk students through
-developing this a step at a time. It uses callbacks to support students who don't know OOP. It certainly would be possible
-to add a subclass strategy for those that do
-
-## Autonomous Robot Control
-robot.py - Robot class that can be programmed by a student, as opposed to being controlled by remote control.  Eventually the plan is to 
-add the capability to switch between RC and autonomous modes (See Robot project)
-
-## Uses
+## Remote Control robot
+Students are walked through how to create a remote control breadkoard robot. This relies on the companion project
+breadboard joystick controller. This project uses a callback stratety instead of Object Oriented Programming to keep
+thngs simple for students new to Python. The end result for this project is code similar to rc_robot_main.py. The program used the following libraries:
 - BLEClient
 - Buzzer
 - Servo (optional)
+
+## Automonous Robot
+The Robot class is designed to allow programming of a robot class for autonomous operation. 
+This class is in-process. The attempt is to use an IMU to allow the user to turn specified angles and move forward 
+specify locations.
 
 ## TODO
 - Provide links to the OnShape design (and stl and 3mf files?)

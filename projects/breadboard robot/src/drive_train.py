@@ -47,7 +47,7 @@ class DriveTrain:
         if self._imu is None:
             print('>>>>>>>>>>>>> imu is None')
             
-    def move(self, left_speed: int, right_speed: int, time: float = None)-> None:
+    def move(self, left_speed: int, right_speed: int, time: float | None = None)-> None:
         """Arbitrary motion, controlling the speed of each motor independently.
 
         Args:
@@ -73,7 +73,7 @@ class DriveTrain:
             sleep(time)
             self.stop()
         
-    def forward(self, speed: int=100, time: float = None)-> None:
+    def forward(self, speed: int=100, time: float | None = None)-> None:
         """Drive the robot forward at a given speed.
 
         Args:
@@ -84,7 +84,7 @@ class DriveTrain:
         
         self.move(speed, speed, time)
         
-    def backward(self, speed: int=100, time: float = None)-> None:
+    def backward(self, speed: int=100, time: float | None = None)-> None:
         """Drive the robot backward at a given speed.
 
         Args:
@@ -97,7 +97,7 @@ class DriveTrain:
         time = distance / self._speed
         self.move(speed, speed, time)
         
-    def turn_left(self, speed: int = 100, time: float = None)-> None:
+    def turn_left(self, speed: int = 100, time: float | None = None)-> None:
         """Turn the robot left at a given speed.
 
         Args:
@@ -106,7 +106,7 @@ class DriveTrain:
         
         self.move(-speed, speed, time)
         
-    def turn_right(self, speed: int = 100, time: float = None)-> None:
+    def turn_right(self, speed: int = 100, time: float | None = None)-> None:
         """Turn the robot right at a given speed.
 
         Args:
