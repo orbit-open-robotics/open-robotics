@@ -1,4 +1,4 @@
-from tester import Tester
+from orbit import Tester
 
 def test_motor(id, speed):
     print(f"Running motor {id} at speed {speed}")

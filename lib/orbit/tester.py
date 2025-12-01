@@ -1,6 +1,4 @@
-from functools import partial
-from collections.abc import Callable
-from typing import Any
+from .partial import partial
 
 class Tester:
     """Class to facilitate testing of devices and components."""
@@ -55,3 +53,4 @@ class Tester:
                     print(f'\nInvalid input. Must be between 0 and {len(self.tests) - 1}.')
             else:
                 print('\nInvalid input. Must be a number or q.')
+
