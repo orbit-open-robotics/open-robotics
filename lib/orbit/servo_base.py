@@ -7,6 +7,7 @@
 #
 # Note:  The goal is eventually to replace this with the class ServoMotor begin developed
 # in the sandbox / strider/servo_motor.py file.
+# ServoMotor is a base class to either PWMServoMotor or I2CServoMotor
 #
 import math
 from machine import Pin, PWM

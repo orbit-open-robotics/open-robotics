@@ -1,17 +1,21 @@
 from functools import partial
+from collections.abc import Callable
+from typing import Any
 
 class Tester:
     """Class to facilitate testing of devices and components."""
 
     def __init__(self) -> None:
-        self.tests: list[tuple[str, callable]] = []
+        """Initialize the Tester with an empty test list."""
+        self.tests: list[tuple[str, Callable[..., Any]]] = []
 
-    def add(self, name: str, func: callable, *args, **kwargs) -> None:
+    def add(self, name: str, func: Callable[..., Any], *args, **kwargs) -> None:
         """Register a test with optional positional and keyword arguments."""
         bound = partial(func, *args, **kwargs)
         self.tests.append((name, bound))
 
     def execute(self, index: int | None = None) -> None:
+        """Execute a specific test by index or all tests if index is None."""
         if index is not None:
             name, func = self.tests[index]
             try:
@@ -26,6 +30,7 @@ class Tester:
             self.execute(i)
 
     def display_menu(self) -> None:
+        """Display the test selection menu."""
         print("\nTest Menu:")
         for i, (name, _) in enumerate(self.tests):
             print(f"{i}: {name}")
@@ -33,6 +38,7 @@ class Tester:
         print("q: quit")
 
     def run_tests(self) -> None:
+        """Run the test selection loop."""
         while True:
             self.display_menu()
             answer = input('Enter selection: ')

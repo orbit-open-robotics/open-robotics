@@ -7,6 +7,9 @@
 # Description: Control of servo motor 
 #
 # Note: This will replace Servo, ServoInfo, and ServoBase
+# This is a subclass for two types of servo control:
+# 1. Direct PWM control (see PWMServoMotor)
+# 2. I2C control using PCA9685 I2C servo controller (see I2CServoMotor)
 #
 # raw = sign * angle + raw_angle_0
 # angle = sign * (raw - raw_angle_0)
@@ -90,6 +93,7 @@ class ServoMotor:
         print(f'Setting {self._name} to {self._angle}')
     
     def move_to_angle(self, angle: float, time: float = 0.0, angle_inc: float = 1.0) -> None:
+        """Move to the specified angle over the specified time in steps of angle_inc."""
         start_angle = self._angle
         num_steps: int = int(abs((angle - start_angle) / angle_inc)) # Counts now 
         
@@ -113,6 +117,7 @@ class ServoMotor:
             print(f'Angle {new_angle} at time {t:.2f} seconds')
 
     def move_by(self, angle_inc: float) -> None:
+        """Move the servo by the specified angle increment."""
         if not self._initialized:
             raise ValueError('Servo angle not initialized. Please set the angle first.')
         
@@ -138,16 +143,19 @@ class ServoMotor:
         self._state = ServoMotor.INCREASING
 
     def start_decreasing(self) -> None:
+        """Start decreasing the servo angle."""
         if not self._state == ServoMotor.DECREASING:
             print('start_decreasing')
         self._state = ServoMotor.DECREASING
 
     def stop(self) -> None:
+        """Stop servo movement."""
         if not self._state == ServoMotor.STOPPED:
             print('stop')
         self._state = ServoMotor.STOPPED
 
     def off(self) -> None:
+        """Turn off the servo motor."""
         raise NotImplementedError("Implement in subclass to turn off the servo motor.")
     
     def _set_raw_angle(self, raw_angle: float) -> None:
@@ -177,6 +185,7 @@ class ServoMotor:
     
     # TODO: Do I need a special mode for this? Maybe a better name?
     async def run_loop(self, angle_inc: float = ANGLE_INC) -> None:
+        """Run the servo motor control loop."""
         while True:
             try:
                 while self._state == ServoMotor.INCREASING:
