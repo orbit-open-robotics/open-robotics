@@ -1,12 +1,12 @@
 #
-# BLEClientSimpleTest
+# test_ble_client
 #
 # Version: 1.00
 # Date: 2025-05-31
 # Author: Sam Linton
 # Description: A simple test script for a BLE client that receives and prints messages from a BLE server.
 #
-from ble_client import BLEClient
+from orbit import BLEClient
 
 # Change this to the name of your BLE server
 server_name = 'BLE Test'

@@ -7,9 +7,9 @@
 # and sends them to a connected client. It also controls a buzzer and an LED to indicate    
 # connection status.
 
-from ble_server import BLEServer
+from orbit import BLEServer
 from machine import Pin, ADC
-from buzzer import Buzzer
+from orbit import Buzzer
 
 # Bluetooth connection light
 led = Pin(6, Pin.OUT)
@@ -49,7 +49,7 @@ def create_message():
 
 
 server = BLEServer(
-    name = 'BLEServer', # Pick a name for your BLE server
+    name = 'JoystickController', # Pick a name for your BLE server
     create_message_func = create_message,
     on_connected_func=connected,
     on_disconnected_func=disconnected,

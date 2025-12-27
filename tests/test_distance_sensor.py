@@ -6,6 +6,8 @@
 # Author: Sam Linton
 # Description: A simple test script for the DistanceSensor class to measure distance using an ultrasonic sensor.
 #
+from orbit import DistanceSensor
+
 if __name__ == '__main__':
     distance_sensor = DistanceSensor(trig=20, echo=21)
     try:

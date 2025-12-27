@@ -9,15 +9,16 @@
 # The robot has two motors, a buzzer, and (optionally) a launcher.
 # The robot uses tank-drive with two joysticks.
 #
-from ble_client import BLEClient
+from orbit import BLEClient
 from machine import Pin, PWM
-from buzzer import Buzzer
+from orbit import Buzzer
 from servo import Servo
 from time import sleep
 
 # Motor control
 LOW = 0
-HIGH = 65_535
+HIGH = 100 # 65_535
+SCALE = 655
 freq = 20_000
 
 # Left Motor: OUT1 and OUT2
@@ -61,9 +62,9 @@ def launch():
 def get_speed(value):
     """Convert joystick value to motor speed."""
     speed = 2 * value - HIGH
-    if abs(speed) < 5000:
+    if abs(speed) < 20:
         speed = 0
-    return speed
+    return SCALE * speed
                
 def move(left_speed, right_speed):
     """Move the robot based on the left and right speed values.
@@ -108,11 +109,10 @@ def receive_message(message):
 
     
 client = BLEClient(
-    server_name='BLEServer', # Must match the name of the JoystickController 
+    server_name='JoystickController', # Must match the name of the JoystickController 
     on_connected_func=connected,
     on_disconnected_func=disconnected,
     receive_message_func=receive_message,
     receive_interval_ms=100)
 
 client.start()
-
