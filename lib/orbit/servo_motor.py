@@ -7,7 +7,7 @@
 # Description: Control of servo motor 
 #
 # Note: This will replace Servo, ServoInfo, and ServoBase
-# This is a subclass for two types of servo control:
+# This is a superclass for two types of servo control:
 # 1. Direct PWM control (see PWMServoMotor)
 # 2. I2C control using PCA9685 I2C servo controller (see I2CServoMotor)
 #

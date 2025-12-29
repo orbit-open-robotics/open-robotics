@@ -1,4 +1,4 @@
-from pwm_servo_motor import PWMServoMotor
+from orbit import PWMServoMotor
 from orbit import Tester
 from time import sleep
 import uasyncio as asyncio

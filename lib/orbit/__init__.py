@@ -3,6 +3,8 @@ from .led import Led
 from .distance_sensor import DistanceSensor
 from .inertial_sensor import InertialSensor
 from .servo_base import ServoBase
+from .servo_motor import ServoMotor
+from .pwm_servo_motor import PWMServoMotor
 from .tester import Tester
 from .partial import partial
 
@@ -24,6 +26,8 @@ __all__=[
     'BLEClient',
     'DistanceSensor',
     'InertialSensor',
+    'ServoMotor',
+    'PWMServoMotor',
     'ServoBase',
     'Tester',
     'partial']
