@@ -47,7 +47,11 @@ class Gripper:
     def off(self) -> None:
         self._servo.off()
         
-    def interpret(self, value) -> None:
+    def interpret(self, flag, value) -> None:
+        if flag == 0:
+            self.stop()
+            return
+        
         if value > 70:
             self.start_open()
         elif value < 30:

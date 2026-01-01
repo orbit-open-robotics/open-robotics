@@ -1,34 +1,54 @@
 #
-# RCClaw2
+# RCClaw
 #
 # Version: 1.00
-# Date: 2025-12-29
+# Date: 2025-05-31
 # Author: Sam Linton
 # Description: Radio-controlled claw using a BLE client to receive messages from a joystick controller.
+# TODO: Refactor:
+# Claw class that only takes lifter/gripper commands, and
+# Separate test classes, one including BLEClient and one without.
 #
 from orbit import BLEClient
 import uasyncio as asyncio
-from claw import Claw
+from gripper import Gripper
+from lifter import Lifter
 from time import sleep
 
 class RCClaw:
-    def __init__(self, claw) -> None:
-        self._ble_client = BLEClient(
+    LEFT_X = 0
+    LEFT_Y = 1
+    RIGHT_X = 2
+    RIGHT_Y = 3
+    LEFT_BUTTON = 4
+    RIGHT_BUTTON = 5
+    
+    def __init__(self, lifter_servo, gripper_servo) -> None:
+        self.ble_client = BLEClient(
             server_name='JoystickController',
             receive_message_func=self.receive_message,
             on_connected_func=self.on_connected,
             on_disconnected_func=self.on_disconnected,
             receive_interval_ms=50) #50
- 
-        self._claw = claw
+#         self.running = False
+        
+        self.lifter = Lifter(lifter_servo)
+        self.gripper = Gripper(gripper_servo)
         
         sleep(0.5)
-        self._claw.lifter.lift()
-        self._claw.gripper.close()
+        self.lifter.lift()
+        self.gripper.close()
         sleep(0.5)
        
     def receive_message(self, message)-> None:
-        self._claw.interpret(message)
+        print(f'Message: {message}')
+        values = message.split(',')
+        
+        flag = 1-int(values[RCClaw.RIGHT_BUTTON])
+        gripper_value = int(values[RCClaw.LEFT_Y])
+        lifter_value  = int(values[RCClaw.LEFT_X])
+        self.lifter.interpret(flag, lifter_value)
+        self.gripper.interpret(flag, gripper_value)
                
     def on_connected(self):
         print('Connected')
@@ -40,8 +60,9 @@ class RCClaw:
         asyncio.run(self.run_loop())
         
     async def run_loop(self)-> None:
-        await asyncio.gather(self._ble_client.run_loop(),
-                             self._claw.run_loop())
+        await asyncio.gather(self.ble_client.run_loop(),
+                             self.lifter.run_loop(),
+                             self.gripper.run_loop())
         
 
 if __name__ == '__main__':
@@ -66,7 +87,5 @@ if __name__ == '__main__':
                           angle_end = angle_end,
                           angle_home = angle_start)
     
-    claw = Claw(lifter_servo, gripper_servo)
-    
-    rc_claw = RCClaw(claw)
+    rc_claw = RCClaw(lifter_servo, gripper_servo)
     rc_claw.start()

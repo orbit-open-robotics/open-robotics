@@ -1,5 +1,5 @@
 #
-# rc_robot_main
+# rc_base_bot
 #
 # Version: 1.01
 # Date: 2025-08-10
@@ -116,3 +116,4 @@ client = BLEClient(
     receive_interval_ms=100)
 
 client.start()
+
