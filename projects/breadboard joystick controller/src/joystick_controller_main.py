@@ -39,9 +39,9 @@ def disconnected():
     
 def create_message():
     """Create a message to send to the connected BLE client."""
-    left_x_value = left_x.read_u16()
-    left_y_value = left_y.read_u16()
-    right_x_value = right_x.read_u16()
+    left_x_value = left_x.read_u16() // 656
+    left_y_value = left_y.read_u16() // 656
+    right_x_value = right_x.read_u16() // 656
     right_y_value = 0
     
     message = f'{left_x_value},{left_y_value},{right_x_value},{right_y_value},{l_button.value()},{r_button.value()}'
