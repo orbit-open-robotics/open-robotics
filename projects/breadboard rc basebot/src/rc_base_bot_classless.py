@@ -17,7 +17,7 @@ from time import sleep
 
 # Motor control
 LOW = 0
-HIGH = 100 # 65_535
+HIGH = 100
 SCALE = 655
 freq = 20_000
 
@@ -60,7 +60,10 @@ def launch():
     launcher.write(180)
     
 def get_speed(value):
-    """Convert joystick value to motor speed."""
+    """Convert joystick value to motor speed.
+    Input value is in the range [0, 99]
+    Output value is in the range [-65_535, +65_535]
+    """
     speed = 2 * value - HIGH
     if abs(speed) < 20:
         speed = 0
@@ -68,6 +71,7 @@ def get_speed(value):
                
 def move(left_speed, right_speed):
     """Move the robot based on the left and right speed values.
+    The values are duty cycle values and should range from -65_535 to +65_535
 
     Args:
         left_speed (int): left wheel speed
@@ -89,7 +93,9 @@ def move(left_speed, right_speed):
 
 def receive_message(message):
     """Receive a message from the BLE client and interpret it to 
-    control the robot."""
+    control the robot.
+    The left and right x and y values should range from 0-99
+    """
     values = message.split(',')
     left_x_value = int(values[0])
     left_y_value = int(values[1])
@@ -101,6 +107,7 @@ def receive_message(message):
         launch()
     
     # Two joysticks, tank-drive
+    # Convert from [0, 99] to [-65_535, +65_535]
     left_speed = get_speed(left_x_value) # 2 * left_value - HIGH
     right_speed = get_speed(right_x_value)
     

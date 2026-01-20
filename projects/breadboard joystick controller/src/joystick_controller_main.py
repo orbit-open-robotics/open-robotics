@@ -38,7 +38,9 @@ def disconnected():
     buzzer.end_sound()
     
 def create_message():
-    """Create a message to send to the connected BLE client."""
+    """Create a message to send to the connected BLE client.
+    The output value will range from 0-99
+    """
     left_x_value = left_x.read_u16() // 656
     left_y_value = left_y.read_u16() // 656
     right_x_value = right_x.read_u16() // 656
