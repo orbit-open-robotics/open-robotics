@@ -16,6 +16,7 @@ from servo import Servo
 from time import sleep
 
 # Motor control
+MAX_DUTY_CYCLE = 65535
 LOW = 0
 HIGH = 100
 SCALE = 655
@@ -61,35 +62,49 @@ def launch():
     
 def get_speed(value):
     """Convert joystick value to motor speed.
-    Input value is in the range [0, 99]
-    Output value is in the range [-65_535, +65_535]
+    Input value is in the range [0, 100]
+    Output value is in the range [-100, 100]
     """
     speed = 2 * value - HIGH
     if abs(speed) < 20:
         speed = 0
-    return SCALE * speed
+    return speed
+
+def speed_to_duty_cycle(speed):
+    """Convert a speed (0-100) to a duty cycle. The speed is clamped
+    to the range 0-100
+
+    Args:
+        speed (int): speed of the robot in the range 0-100
+
+    Returns:
+        int: duty cycle in the range 0-65535
+    """
+    speed = max(0, min(100, speed))
+    return int(MAX_DUTY_CYCLE * speed / 100)
                
 def move(left_speed, right_speed):
     """Move the robot based on the left and right speed values.
-    The values are duty cycle values and should range from -65_535 to +65_535
+    The values are [-100, 100]
 
     Args:
         left_speed (int): left wheel speed
         right_speed (int): right wheel speed
     """
+    print(f'move {left_speed} {right_speed}')
     if left_speed > 0:
-        left_1.duty_u16(left_speed)
+        left_1.duty_u16(speed_to_duty_cycle(left_speed))
         left_2.duty_u16(0)
     else:
         left_1.duty_u16(0)
-        left_2.duty_u16(-left_speed)
+        left_2.duty_u16(speed_to_duty_cycle(-left_speed))
             
     if right_speed > 0:
-        right_1.duty_u16(right_speed)
+        right_1.duty_u16(speed_to_duty_cycle(right_speed))
         right_2.duty_u16(0)
     else:
         right_1.duty_u16(0)
-        right_2.duty_u16(-right_speed)
+        right_2.duty_u16(speed_to_duty_cycle(-right_speed))
 
 def receive_message(message):
     """Receive a message from the BLE client and interpret it to 
@@ -107,7 +122,7 @@ def receive_message(message):
         launch()
     
     # Two joysticks, tank-drive
-    # Convert from [0, 99] to [-65_535, +65_535]
+    # Convert from [0, 99] to [-100, 100]
     left_speed = get_speed(left_x_value) # 2 * left_value - HIGH
     right_speed = get_speed(right_x_value)
     

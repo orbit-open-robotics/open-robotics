@@ -18,7 +18,7 @@ class BasicDriveTrain:
     # Speed control constants
     MAX_DUTY_CYCLE: int = 65535
     LOW = 0
-    HIGH = 99 # 65_535
+    HIGH = 100
     SCALE = 655
     
     # Joystick message indices
@@ -79,9 +79,6 @@ class BasicDriveTrain:
         Args:
             speed (int): speed of the robot in the range (-100, +100)
         """
-        print('forward')
-       
-        
         self.move(speed, speed, time)
         
     def backward(self, speed: int=100, time: float | None = None)-> None:
@@ -94,11 +91,12 @@ class BasicDriveTrain:
         
     
     def _get_speed(self, value):
-        """Convert joystick value to motor speed."""
+        """Convert joystick value to motor speed.
+        joystick value is [0, 100]. Motor speed is [-100, 100]"""
         speed = 2 * value - BasicDriveTrain.HIGH
         if abs(speed) < 20:
             speed = 0
-        return BasicDriveTrain.SCALE * speed
+        return speed
         
     def _speed_to_duty_cycle(self, speed: int)-> int:
         """Convert a speed (0-100) to a duty cycle. The speed is clamped
