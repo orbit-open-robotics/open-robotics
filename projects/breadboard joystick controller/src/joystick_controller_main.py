@@ -42,7 +42,7 @@ def create_message():
     left_x_value = left_x.read_u16() // 655
     left_y_value = left_y.read_u16() // 655
     right_x_value = right_x.read_u16() // 655
-    right_y_value = 100
+    right_y_value = 0
     
     message = f'{left_x_value},{left_y_value},{right_x_value},{right_y_value},{l_button.value()},{r_button.value()}'
     return message
