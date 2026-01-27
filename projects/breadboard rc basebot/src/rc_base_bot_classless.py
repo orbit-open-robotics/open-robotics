@@ -37,10 +37,6 @@ led.off()
 # Buzzer
 buzzer = Buzzer(pin = 22)
 
-# Launcher (optional)
-launcher = Servo(pin_id = 16)
-launcher.write(180)
-
 def connected():
     """Callback function when a BLE connection is established."""
     print('CONNECTED')
@@ -52,13 +48,6 @@ def disconnected():
     print('DISCONNECTED')
     led.off()
     buzzer.end_sound()
-    
-def launch():
-    """Launch the robot's launcher."""
-    print('Launch!')
-    launcher.write(30)
-    sleep(0.5)
-    launcher.write(180)
     
 def get_speed(value):
     """Convert joystick value to motor speed.
@@ -109,7 +98,7 @@ def move(left_speed, right_speed):
 def receive_message(message):
     """Receive a message from the BLE client and interpret it to 
     control the robot.
-    The left and right x and y values should range from 0-99
+    The left and right x and y values should range from 0-100
     """
     values = message.split(',')
     left_x_value = int(values[0])
@@ -122,7 +111,7 @@ def receive_message(message):
         launch()
     
     # Two joysticks, tank-drive
-    # Convert from [0, 99] to [-100, 100]
+    # Convert from [0, 100] to [-100, 100]
     left_speed = get_speed(left_x_value) # 2 * left_value - HIGH
     right_speed = get_speed(right_x_value)
     
