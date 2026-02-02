@@ -6,13 +6,12 @@
 # Author Sam Linton
 # Description: This script controls a robot that is controlled with 
 # Bluetooth Low Energy (BLE) using a BBJoystickController. 
-# The robot has two motors, a buzzer, and (optionally) a launcher.
+# The robot has two motors, an LED, and a buzzer.
 # The robot uses tank-drive with two joysticks.
 #
 from orbit import BLEClient
 from machine import Pin, PWM
 from orbit import Buzzer
-from servo import Servo
 from time import sleep
 
 # Motor control
@@ -107,8 +106,6 @@ def receive_message(message):
     right_y_value = 0
     left_button = int(values[4])
     right_button = int(values[5])
-    if left_button == 0:
-        launch()
     
     # Two joysticks, tank-drive
     # Convert from [0, 100] to [-100, 100]
