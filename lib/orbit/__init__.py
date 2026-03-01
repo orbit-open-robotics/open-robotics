@@ -1,3 +1,4 @@
+from .version import VERSION
 from .buzzer import Buzzer
 from .led import Led
 from .distance_sensor import DistanceSensor
