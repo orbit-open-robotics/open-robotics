@@ -5,6 +5,7 @@
 #
 # TODO: add display object to display
 #
+from typing import List
 from menu_item import MenuItem
 
 class Menu:
