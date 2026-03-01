@@ -9,7 +9,7 @@
 #
 from time import sleep
 from machine import Pin, PWM
-from servo_motor import ServoMotor
+from orbit.servo_motor import ServoMotor
 
 
 class PWMServoMotor(ServoMotor):

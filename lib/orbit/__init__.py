@@ -1,4 +1,5 @@
-from .version import VERSION
+__version__ = '2026_02_28'
+
 from .buzzer import Buzzer
 from .led import Led
 from .distance_sensor import DistanceSensor
@@ -32,3 +33,6 @@ __all__=[
     'ServoBase',
     'Tester',
     'partial']
+
+def version() -> str:
+    return __version__
