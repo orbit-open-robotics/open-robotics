@@ -13,21 +13,24 @@ from orbit import BLEClient
 from machine import Pin, PWM
 from orbit import Buzzer
 from time import sleep
+from orbit import DriveTrain
 
 # Motor control
-MAX_DUTY_CYCLE = 65535
-LOW = 0
-HIGH = 100
-SCALE = 655
-freq = 20_000
-
-# Left Motor: OUT1 and OUT2
-left_1 = PWM(Pin(10, Pin.OUT), freq) # 14
-left_2 = PWM(Pin(11, Pin.OUT), freq) # 15
-
-# Right Motor: OUT3 and OUT4
-right_1 = PWM(Pin(12, Pin.OUT), freq) # 16
-right_2 = PWM(Pin(13, Pin.OUT), freq) # 17
+# MAX_DUTY_CYCLE = 65535
+# LOW = 0
+# HIGH = 100
+# SCALE = 655
+# freq = 20_000
+# 
+# # Left Motor: OUT1 and OUT2
+# left_1 = PWM(Pin(10, Pin.OUT), freq) # 14
+# left_2 = PWM(Pin(11, Pin.OUT), freq) # 15
+# 
+# # Right Motor: OUT3 and OUT4
+# right_1 = PWM(Pin(12, Pin.OUT), freq) # 16
+# right_2 = PWM(Pin(13, Pin.OUT), freq) # 17
+# DriveTrain
+drive_train = DriveTrain()
 
 # Connection led
 led = Pin(6, Pin.OUT)
@@ -48,72 +51,74 @@ def disconnected():
     led.off()
     buzzer.end_sound()
     
-def get_speed(value):
-    """Convert joystick value to motor speed.
-    Input value is in the range [0, 100]
-    Output value is in the range [-100, 100]
-    """
-    speed = 2 * value - HIGH
-    if abs(speed) < 20:
-        speed = 0
-    return speed
-
-def speed_to_duty_cycle(speed):
-    """Convert a speed (0-100) to a duty cycle. The speed is clamped
-    to the range 0-100
-
-    Args:
-        speed (int): speed of the robot in the range 0-100
-
-    Returns:
-        int: duty cycle in the range 0-65535
-    """
-    speed = max(0, min(100, speed))
-    return int(MAX_DUTY_CYCLE * speed / 100)
-               
-def move(left_speed, right_speed):
-    """Move the robot based on the left and right speed values.
-    The values are [-100, 100]
-
-    Args:
-        left_speed (int): left wheel speed
-        right_speed (int): right wheel speed
-    """
-    print(f'move {left_speed} {right_speed}')
-    if left_speed > 0:
-        left_1.duty_u16(speed_to_duty_cycle(left_speed))
-        left_2.duty_u16(0)
-    else:
-        left_1.duty_u16(0)
-        left_2.duty_u16(speed_to_duty_cycle(-left_speed))
-            
-    if right_speed > 0:
-        right_1.duty_u16(speed_to_duty_cycle(right_speed))
-        right_2.duty_u16(0)
-    else:
-        right_1.duty_u16(0)
-        right_2.duty_u16(speed_to_duty_cycle(-right_speed))
+# def get_speed(value):
+#     """Convert joystick value to motor speed.
+#     Input value is in the range [0, 100]
+#     Output value is in the range [-100, 100]
+#     """
+#     speed = 2 * value - HIGH
+#     if abs(speed) < 20:
+#         speed = 0
+#     return speed
+# 
+# def speed_to_duty_cycle(speed):
+#     """Convert a speed (0-100) to a duty cycle. The speed is clamped
+#     to the range 0-100
+# 
+#     Args:
+#         speed (int): speed of the robot in the range 0-100
+# 
+#     Returns:
+#         int: duty cycle in the range 0-65535
+#     """
+#     speed = max(0, min(100, speed))
+#     return int(MAX_DUTY_CYCLE * speed / 100)
+#                
+# def move(left_speed, right_speed):
+#     """Move the robot based on the left and right speed values.
+#     The values are [-100, 100]
+# 
+#     Args:
+#         left_speed (int): left wheel speed
+#         right_speed (int): right wheel speed
+#     """
+#     print(f'move {left_speed} {right_speed}')
+#     if left_speed > 0:
+#         left_1.duty_u16(speed_to_duty_cycle(left_speed))
+#         left_2.duty_u16(0)
+#     else:
+#         left_1.duty_u16(0)
+#         left_2.duty_u16(speed_to_duty_cycle(-left_speed))
+#             
+#     if right_speed > 0:
+#         right_1.duty_u16(speed_to_duty_cycle(right_speed))
+#         right_2.duty_u16(0)
+#     else:
+#         right_1.duty_u16(0)
+#         right_2.duty_u16(speed_to_duty_cycle(-right_speed))
 
 def receive_message(message):
     """Receive a message from the BLE client and interpret it to 
     control the robot.
     The left and right x and y values should range from 0-100
     """
-    values = message.split(',')
-    left_x_value = int(values[0])
-    left_y_value = int(values[1])
-    right_x_value = int(values[2])
-    right_y_value = 0
-    left_button = int(values[4])
-    right_button = int(values[5])
+    drive_train.interpret(message)
     
-    # Two joysticks, tank-drive
-    # Convert from [0, 100] to [-100, 100]
-    left_speed = get_speed(left_x_value) # 2 * left_value - HIGH
-    right_speed = get_speed(right_x_value)
-    
-    print(f'{left_x_value},{left_y_value},{right_x_value},{right_y_value},{left_button},{right_button}')
-    move(left_speed, right_speed)
+#     values = message.split(',')
+#     left_x_value = int(values[0])
+#     left_y_value = int(values[1])
+#     right_x_value = int(values[2])
+#     right_y_value = 0
+#     left_button = int(values[4])
+#     right_button = int(values[5])
+#     
+#     # Two joysticks, tank-drive
+#     # Convert from [0, 100] to [-100, 100]
+#     left_speed = get_speed(left_x_value) # 2 * left_value - HIGH
+#     right_speed = get_speed(right_x_value)
+#     
+#     print(f'{left_x_value},{left_y_value},{right_x_value},{right_y_value},{left_button},{right_button}')
+#     move(left_speed, right_speed)
 
     
 client = BLEClient(

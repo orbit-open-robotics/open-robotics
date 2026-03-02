@@ -1,5 +1,5 @@
 #
-# BasicDriveTrain
+# DriveTrain
 #
 # Version: 3.00
 # Date: 2025-12-30
@@ -10,7 +10,7 @@
 from machine import Pin, PWM
 from time import sleep, ticks_us
 
-class BasicDriveTrain:
+class DriveTrain:
     """Class to control a drive train with 2 motors using a motor driver.
     The motor driver is controlled using PWM signals to control the speed and
     direction of the motors. 
@@ -93,7 +93,7 @@ class BasicDriveTrain:
     def _get_speed(self, value):
         """Convert joystick value to motor speed.
         joystick value is [0, 100]. Motor speed is [-100, 100]"""
-        speed = 2 * value - BasicDriveTrain.HIGH
+        speed = 2 * value - DriveTrain.HIGH
         if abs(speed) < 20:
             speed = 0
         return speed
@@ -111,7 +111,7 @@ class BasicDriveTrain:
         
         # TODO: may need to have minimum duty cycle to get the motors to start
         speed = max(0, min(100, speed))
-        return int(BasicDriveTrain.MAX_DUTY_CYCLE * speed / 100)
+        return int(DriveTrain.MAX_DUTY_CYCLE * speed / 100)
     
     def stop(self)-> None:
         """Stop the robot by setting the speed of both motors to 0.
@@ -123,15 +123,15 @@ class BasicDriveTrain:
         values = message.split(',')
         
         # stop if the right button is pressed
-        right_button = int(values[BasicDriveTrain.RIGHT_BUTTON])
+        right_button = int(values[DriveTrain.RIGHT_BUTTON])
         if right_button == 0:
             self.stop()
             return
         
         # Tank Drive
-        left_x_value = int(values[BasicDriveTrain.LEFT_X])
-        right_x_value = int(values[BasicDriveTrain.RIGHT_X])
-        left_speed = self._get_speed(left_x_value) # 2 * left_value - BasicDriveTrain.HIGH
+        left_x_value = int(values[DriveTrain.LEFT_X])
+        right_x_value = int(values[DriveTrain.RIGHT_X])
+        left_speed = self._get_speed(left_x_value) # 2 * left_value - DriveTrain.HIGH
         right_speed = self._get_speed(right_x_value)
         
         #print(f'{left_x_value},{left_y_value},{right_x_value},{right_y_value},{left_button},{right_button}')
@@ -154,7 +154,7 @@ if __name__ == "__main__":
     print('Testing DriveTrain class')
     # Create the DriveTrain object
     #dt = DriveTrain((1, 2), (3, 4))
-    dt = BasicDriveTrain()
+    dt = DriveTrain()
     print(repr(dt))
     sleep(1)
     
