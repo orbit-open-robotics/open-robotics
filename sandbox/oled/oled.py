@@ -10,18 +10,18 @@ from time import sleep
 
 class Oled(SSD1306_I2C):
     WIDTH = 128
-    HEIGHT = 32
+    HEIGHT = 64
     def __init__(self, i2c_num=0, scl_pin=1, sda_pin=0) -> None:
         sleep(0.5)
         i2c = I2C(i2c_num, scl=Pin(scl_pin), sda=Pin(sda_pin), freq=200000)
         super().__init__(Oled.WIDTH, Oled.HEIGHT, i2c)
 
     def draw_eyes(self)-> None:
-        self.ellipse(28, 4, 8, 3, 1, True)
-        self.ellipse(100, 4, 8, 3, 1, True)
+        self.ellipse(28, 8, 7, 7, 1, True)
+        self.ellipse(100, 8, 7, 7, 1, True)
         
     def draw_mouth(self)-> None:
-        self.rect(15, 20, 98, 5, 1, True)
+        self.rect(15, 40, 98, 5, 1, True)
         
     def draw_neutral(self)-> None:
         self.fill(0)
