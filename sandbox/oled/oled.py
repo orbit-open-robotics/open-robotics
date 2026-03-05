@@ -18,11 +18,11 @@ class Oled(SSD1306_I2C):
         super().__init__(Oled.WIDTH, Oled.HEIGHT, i2c)
 
     def draw_eyes(self)-> None:
-        self.ellipse(28, 4, 8, 3, 1, True)
-        self.ellipse(100, 4, 8, 3, 1, True)
+        self.ellipse(28, 8, 7, 7, 1, True)
+        self.ellipse(100, 8, 7, 7, 1, True)
         
     def draw_mouth(self)-> None:
-        self.rect(15, 20, 98, 5, 1, True)
+        self.rect(15, 40, 98, 5, 1, True)
         
     def draw_neutral(self)-> None:
         self.fill(0)
