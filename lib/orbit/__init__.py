@@ -1,4 +1,4 @@
-__version__ = '2026_02_28'
+__version__ = '2026_03_16'
 
 from .buzzer import Buzzer
 from .led import Led
@@ -7,6 +7,7 @@ from .inertial_sensor import InertialSensor
 from .servo_base import ServoBase
 from .servo_motor import ServoMotor
 from .pwm_servo_motor import PWMServoMotor
+from .oled import Oled
 from .tester import Tester
 from .partial import partial
 
@@ -31,6 +32,7 @@ __all__=[
     'ServoMotor',
     'PWMServoMotor',
     'ServoBase',
+    'Oled',
     'Tester',
     'partial']
 
