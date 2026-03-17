@@ -1,10 +1,8 @@
-from orbit import Oled
-import os
+from orbit import oled
 
 if __name__ == '__main__':
     from time import sleep
     print(os.getcwd())
-    print(os.listdir())
     oled = Oled(scl_pin = 9, sda_pin = 8)
     
     expressions = ['happy','angry','neutral','sad','scared','sleepy','surprised']

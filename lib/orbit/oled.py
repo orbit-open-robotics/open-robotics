@@ -18,13 +18,14 @@ class Oled(SSD1306_I2C):
         super().__init__(Oled.WIDTH, Oled.HEIGHT, i2c)
         
     def draw_face(self, expression)-> None:
-        filename = 'faces/' + expression + '.bin'
+        filename = 'lib/orbit/faces/' + expression + '.bin'
+        print(f'filename: {filename}')
         with open(filename, "rb") as f:
             data = bytearray(f.read())
         fb = framebuf.FrameBuffer(data, 128, 64, framebuf.MONO_HLSB)
-        oled.fill(0)
-        oled.blit(fb, 0, 0)
-        oled.show()
+        self.fill(0)
+        self.blit(fb, 0, 0)
+        self.show()
     
 
 if __name__ == '__main__':
