@@ -1,8 +1,8 @@
 
 const BROKER = "broker.hivemq.com";
 const PORT = 8884;               // WSS port
-const TOPIC_TX = "mypico/upload";    // laptop → Pico
-const TOPIC_RX = "mypico/response";  // Pico → laptop
+const TOPIC_TX = "orbit_pico/upload";    // laptop → Pico
+const TOPIC_RX = "orbit_pico/response";  // Pico → laptop
 
 const clientId = "webclient_" + Math.random().toString(16).slice(2, 8);
 const client = new Paho.Client(BROKER, PORT, clientId);
