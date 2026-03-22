@@ -5,6 +5,7 @@
 from network import WLAN, STA_IF
 from time import sleep
 from umqtt.simple import MQTTClient
+from typing import Callable, Tuple
 
 # MQTT Information
 MQTT_BROKER = "broker.hivemq.com" 
@@ -18,15 +19,15 @@ class WebClient:
                  network_name: str,
                  password: str,
                  id: str,
-                 subscribe_topic: str = None,
-                 receive_message_func: Callable[[str, str], None] = None,
-                 create_message_func: Callable[[], Tuple[str, str]] = None,
+                 subscribe_topic: str,
+                 receive_message_func: Callable[[str, str], None] | None = None,
+                 create_message_func: Callable[[], Tuple[str, str]] | None = None,
                  delay: float = 0.5
                  ) -> None:
         self._id: str = id
         self._subscribe_topic: str = subscribe_topic
-        self._receive_message_func: Callable[[str, str], None] = receive_message_func
-        self._create_message_func: Callable[[], str] = create_message_func
+        self._receive_message_func: Callable[[str, str], None] | None = receive_message_func
+        self._create_message_func: Callable[[], Tuple[str, str]] | None = create_message_func
         self._delay: float = delay
         
         self._connect_to_wifi(network_name=network_name, password=password)
@@ -39,7 +40,7 @@ class WebClient:
         print("Connecting to WiFi", end="")
         while not wlan.isconnected():
             print(".", end="")
-            sleep(0.5)
+            sleep(self._delay)
         print("\nConnected! IP:", wlan.ifconfig()[0])
         
     def _connect_mqtt(self) -> None:
@@ -47,16 +48,16 @@ class WebClient:
         self.client: MQTTClient = MQTTClient(client_id, MQTT_BROKER, MQTT_PORT)
         self.client.set_callback(self._receive_message_func)
         self.client.connect()
-        self.client.subscribe(self._subscribe_topic)
+        self.client.subscribe(self._subscribe_topic.encode())
         print(f"Connected to broker: {MQTT_BROKER}")
-        print(f"Subscribed to: {self._subscribe_topic.decode()}")
+        print(f"Subscribed to: {self._subscribe_topic}")
         
     def publish(self)-> None:
         if self._create_message_func is None: return
         topic, payload = self._create_message_func()
         if topic is None or payload is None: return
         
-        self.client.publish(topic, payload)
+        self.client.publish(topic.encode(), payload.encode())
         print(f"Published: {payload}")
             
     def start(self)-> None:
@@ -72,8 +73,8 @@ if __name__ == "__main__":
     PASSWORD = "password32"
     
     # Topics
-    TOPIC_PUBLISH = b"orbit_pico/data"     # Pico sends data here
-    TOPIC_SUBSCRIBE = b"orbit_pico/commands"  # Pico listens for commands here
+    TOPIC_PUBLISH = "orbit_pico/data"     # Pico sends data here
+    TOPIC_SUBSCRIBE = "orbit_pico/command"  # Pico listens for commands here
     
     def receive_message(topic, message)-> None:
         print(f"Received on {topic.decode()}: {message.decode()}")

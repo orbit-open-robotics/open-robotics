@@ -2,11 +2,7 @@
 # RobotAccessory
 #
 class RobotAccessory:
-    def __init__(
-        self,
-        on_connected_func=None,
-        on_disconnected_func=None
-    ) -> None:
+    def __init__(self) -> None:
         pass
 
     def initialize(self) -> None:
@@ -23,6 +19,7 @@ class RobotAccessory:
 
     def start(self) -> None:
         pass
+
 
 if __name__ == "__main__":
     robot_accessory = RobotAccessory()

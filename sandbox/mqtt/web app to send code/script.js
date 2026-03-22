@@ -1,7 +1,6 @@
-
 const BROKER = "broker.hivemq.com"; 
 const PORT = 8884;               // WSS port
-const TOPIC_TX = "orbit_pico/upload";    // laptop → Pico
+const TOPIC_TX = "orbit_pico/command";    // laptop → Pico
 const TOPIC_RX = "orbit_pico/response";  // Pico → laptop
 
 const clientId = "webclient_" + Math.random().toString(16).slice(2, 8);

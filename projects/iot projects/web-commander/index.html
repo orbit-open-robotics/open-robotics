@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pico Code Editor</title>
+    <!-- Paho MQTT client for browsers -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.1.0/paho-mqtt.min.js"></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h2>Web Commander</h2>
+
+    <div id="status" class="disconnected">Disconnected from broker</div>
+
+    <div class="command-area">
+        <label for="name-input">Pico Name:</label>
+        <input type="text" id="name-input">
+        <label for="command-input">Command:</label>
+        <input type="text" id="command-input">
+    </div>
+    <button id="send-btn" disabled onclick="sendCommand()">Send to Pico</button>
+
+
+    <h3>Log</h3>
+    <div id="log"></div>
+    <button onclick="clearLog()">Clear Log</button>
+
+
+</body>
+
+</html>

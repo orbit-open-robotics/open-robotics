@@ -1,11 +1,12 @@
-const BROKER = "broker.hivemq.com"; 
-const PORT = 8884;               // WSS port
-const TOPIC_TX = "orbit_pico/command";    // laptop → Pico
-const TOPIC_RX = "orbit_pico/response";  // Pico → laptop
 
+const BROKER = "broker.hivemq.com";
+const PORT = 8884;
+const TOPIC_TX_BASE = "orbit_pico/command";    // web → Pico
+const TOPIC_RX_BASE = "orbit_pico/response";  // Pico → web
 
-const clientId = "webclient_" + Math.random().toString(16).slice(2, 8);
+const clientId = "web_commander_" + Math.random().toString(16).slice(2, 8);
 const client = new Paho.Client(BROKER, PORT, clientId);
+let topicRx = TOPIC_RX_BASE;  // Will subscribe to specific Pico's response topic after sending command
 
 // --- Logging ---
 function log(msg) {
@@ -31,7 +32,7 @@ client.onMessageArrived = (message) => {
     log("Pico says: " + message.payloadString);
 };
 
-
+// --- Connect ---
 function connect() {
     log("Connecting to broker...");
     client.connect({
@@ -39,26 +40,34 @@ function connect() {
         onSuccess: () => {
             setStatus("connected", "Connected to broker");
             document.getElementById("send-btn").disabled = false;
-            client.subscribe(TOPIC_RX);
-            log("Connected! Subscribed to " + TOPIC_RX);
+            client.subscribe(topicRx);
+            log("Connected! Subscribed to " + topicRx);
         },
         onFailure: (err) => {
             log("Connection failed: " + err.errorMessage);
             setTimeout(connect, 5000);
         }
     });
-}   
+}
 
-function send() {
-    const text = document.getElementById("msg").value;
-    if (!text) { log("Nothing to send."); return; }
+function sendCommand() {
+    const name = document.getElementById("name-input").value.trim();
+    const command = document.getElementById("command-input").value.trim();
+    if (!name || !command) { log("Name and command are required."); return; }
 
+    // Reset client subscription to listen for this Pico's response
+    if (topicRx) {
+        client.unsubscribe(topicRx);
+    }
+    topicRx = TOPIC_RX_BASE + "/" + name;
+    client.subscribe(topicRx);
+    log("Subscribed to " + topicRx + " for response");
 
-    const message = new Paho.Message(text);
-    message.destinationName = TOPIC_TX;
+    const message = new Paho.Message(command);
+    message.destinationName = TOPIC_TX_BASE + "/" + name;  // Send to specific Pico
     client.send(message);
-    log("Sent " + message.length + " bytes to " + TOPIC_TX);
-    setStatus("sent", "Code sent to Pico");
+    log(`Sent command to ${name}: "${command}"`);
+    setStatus("sent", "Command sent to Pico");
 }
 
 function setStatus(type, text) {
@@ -69,5 +78,3 @@ function setStatus(type, text) {
 
 // --- Start ---
 connect();
-
-

@@ -1,3 +1,9 @@
+#
+# !!!!This is totally broken with changes to WebClient
+#
+
+
+
 from web_client import WebClient
 
 TOPIC_PUBLISH = b"orbit_pico/status"     # Pico sends data here

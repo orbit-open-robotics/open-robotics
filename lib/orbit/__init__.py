@@ -1,4 +1,4 @@
-__version__ = '2026_03_16'
+__version__ = '2026_03_22'
 
 from .buzzer import Buzzer
 from .led import Led
@@ -10,6 +10,11 @@ from .pwm_servo_motor import PWMServoMotor
 from .oled import Oled
 from .tester import Tester
 from .partial import partial
+
+try:
+    from .web_client import WebClient
+except ImportError:
+    WebClient = None
 
 try:
     from .ble_client import BLEClient
@@ -34,7 +39,8 @@ __all__=[
     'ServoBase',
     'Oled',
     'Tester',
-    'partial']
+    'partial',
+    'WebClient']
 
 def version() -> str:
     return __version__
