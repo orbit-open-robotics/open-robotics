@@ -1,4 +1,4 @@
-__version__ = '2026_03_22'
+__version__ = '2026_03_23'
 
 from .buzzer import Buzzer
 from .led import Led
@@ -10,6 +10,9 @@ from .pwm_servo_motor import PWMServoMotor
 from .oled import Oled
 from .tester import Tester
 from .partial import partial
+from .codec import encode_list, decode_list
+from .drive_train import DriveTrain
+from .rc_base_bot import RCBaseBot
 
 try:
     from .web_client import WebClient
@@ -40,7 +43,11 @@ __all__=[
     'Oled',
     'Tester',
     'partial',
-    'WebClient']
+    'encode_list',
+    'decode_list',
+    'WebClient',
+    'DriveTrain',
+    'RCBaseBot']
 
 def version() -> str:
     return __version__
