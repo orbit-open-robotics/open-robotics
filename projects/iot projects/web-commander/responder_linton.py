@@ -5,10 +5,13 @@ from time import sleep
 # Network
 SSID = "Room32"
 PASSWORD = "password32"
+
+SSID = "Linton"
+PASSWORD = "Old_coffee_mugz2"
     
 # Topics
-TOPIC_PUBLISH_BASE = "orbit_pico/response" 
-TOPIC_SUBSCRIBE_BASE = "orbit_pico/command" 
+TOPIC_PUBLISH_BASE = "orbit_pico/response"     # Pico sends data here
+TOPIC_SUBSCRIBE_BASE = "orbit_pico/command"  # Pico listens for commands here
     
 ID = "bob"
 TOPIC_PUBLISH = TOPIC_PUBLISH_BASE + '/' + ID
