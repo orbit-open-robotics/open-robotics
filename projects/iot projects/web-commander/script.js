@@ -38,7 +38,7 @@ function connect() {
     client.connect({
         useSSL: true,
         onSuccess: () => {
-            setStatus("connected", "Connected to broker");
+            setStatus("connected", "Connected to broker: " + BROKER);
             document.getElementById("send-btn").disabled = false;
             client.subscribe(topicRx);
             log("Connected! Subscribed to " + topicRx);
@@ -55,6 +55,9 @@ function sendCommand() {
     const command = document.getElementById("command-input").value.trim();
     if (!name || !command) { log("Name and command are required."); return; }
 
+    // Save name to localStorage for next time
+    localStorage.setItem("picoName", name);
+
     // Reset client subscription to listen for this Pico's response
     if (topicRx) {
         client.unsubscribe(topicRx);
@@ -67,7 +70,7 @@ function sendCommand() {
     message.destinationName = TOPIC_TX_BASE + "/" + name;  // Send to specific Pico
     client.send(message);
     log(`Sent command to ${name}: "${command}"`);
-    setStatus("sent", "Command sent to Pico");
+    // setStatus("sent", "Command sent to Pico: " + name);
 }
 
 function setStatus(type, text) {
@@ -76,5 +79,13 @@ function setStatus(type, text) {
     el.textContent = text;
 }
 
+// Load saved Pico name from localStorage
+const picoName = localStorage.getItem("picoName");
+if (picoName) {
+    document.getElementById("name-input").value = picoName;
+}
+
 // --- Start ---
 connect();
+
+
