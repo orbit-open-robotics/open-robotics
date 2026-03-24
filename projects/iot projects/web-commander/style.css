@@ -60,13 +60,13 @@ input {
 }
 
 .connected {
-    background: #d4edda;
-    color: #155724;
+    background-color: rgb(0, 188, 0);
+    color: white;
 }
 
 .disconnected {
-    background: #f8d7da;
-    color: #721c24;
+    background: rgb(255, 0, 0);
+    color: white;
 }
 
 .sent {
