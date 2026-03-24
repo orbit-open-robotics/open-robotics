@@ -4,7 +4,7 @@
 
 
 
-from web_client import WebClient
+from orbit import WebClient
 
 TOPIC_PUBLISH = b"orbit_pico/status"     # Pico sends data here
 TOPIC_SUBSCRIBE = b"orbit_pico/upload"  # Pico listens for commands here

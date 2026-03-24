@@ -11,12 +11,11 @@ from .oled import Oled
 from .tester import Tester
 from .partial import partial
 from .codec import encode_list, decode_list
-from .drive_train import DriveTrain
-from .rc_base_bot import RCBaseBot
 
 try:
     from .web_client import WebClient
 except ImportError:
+    print('Unable to find WebClient. Did you install micropython.umqtt.simple?')
     WebClient = None
 
 try:
@@ -35,6 +34,7 @@ __all__=[
     'Led',
     'BLEServer',
     'BLEClient',
+    'WebClient',
     'DistanceSensor',
     'InertialSensor',
     'ServoMotor',
@@ -44,10 +44,8 @@ __all__=[
     'Tester',
     'partial',
     'encode_list',
-    'decode_list',
-    'WebClient',
-    'DriveTrain',
-    'RCBaseBot']
+    'decode_list'
+    ]
 
 def version() -> str:
     return __version__
