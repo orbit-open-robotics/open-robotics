@@ -10,37 +10,23 @@
 </head>
 
 <body>
-    <h2>Web Commander</h2>
+    <div class="contents">
+        <h2>Web Commander</h2>
 
-    <div id="status" class="disconnected">Disconnected from broker</div>
+        <div id="status" class="disconnected">Disconnected from broker</div>
 
-    <div class="command-area">
-        <label for="name-input">Pico Name:</label>
-        <input type="text" id="name-input">
-        <label for="command-input">Command:</label>
-        <input type="text" id="command-input">
+        <div class="command-area">
+            <label for="name-input">Pico Name:</label>
+            <input type="text" id="name-input">
+            <label for="command-input">Command:</label>
+            <input type="text" id="command-input">
+            <button id="send-btn" disabled onclick="sendCommand()">Send</button>
+        </div>
+
+        <h3>Log</h3>
+        <div id="log"></div>
+        <button onclick="clearLog()">Clear</button>
     </div>
-    <button id="send-btn" disabled onclick="sendCommand()">Send to Pico</button>
-
-    <textarea id="code" placeholder="Type your MicroPython code here...">
-# Example: blink the onboard LED
-from machine import Pin
-import time
-
-led = Pin('LED', Pin.OUT)
-for _ in range(5):
-    led.on()
-    time.sleep(0.5)
-    led.off()
-    time.sleep(0.5)
-    </textarea>
-
-    <br>
-    <button id="send-btn" disabled onclick="sendCode()">Send to Pico</button>
-
-    <h3>Log</h3>
-    <div id="log"></div>
-    <button onclick="clearLog()">Clear Log</button>
 
 
 </body>
