@@ -17,9 +17,8 @@ class DriveTrain:
     """
     # Speed control constants
     MAX_DUTY_CYCLE: int = 65535
-    LOW = 0
-    HIGH = 100
-    SCALE = 655
+    LOW = 0 # Min value from Joystick Controller
+    HIGH = 100 # Max value from Joystick Controller
     
     # Joystick message indices
     LEFT_X = 0

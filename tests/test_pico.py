@@ -9,8 +9,9 @@ print("Machine:", info.machine)
 print()
 
 # Orbit Library Version
-from orbit import version
+from orbit import version, libraries
 print(f'Orbit library version: {version()}')
+libraries()
 
 # Blink (Pico-W)
 from machine import Pin

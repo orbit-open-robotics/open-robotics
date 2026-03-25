@@ -1,4 +1,4 @@
-__version__ = '2026_03_23'
+__version__ = '2026_03_25'
 
 from .buzzer import Buzzer
 from .led import Led
@@ -9,6 +9,9 @@ from .servo_motor import ServoMotor
 from .pwm_servo_motor import PWMServoMotor
 from .oled import Oled
 from .tester import Tester
+from .joystick_controller import JoystickController
+from .drive_train import DriveTrain
+from .rc_base_bot import RCBaseBot
 from .partial import partial
 from .codec import encode_list, decode_list
 
@@ -42,10 +45,18 @@ __all__=[
     'ServoBase',
     'Oled',
     'Tester',
+    'JoystickController',
+    'DriveTrain',
+    'RCBaseBot',
     'partial',
     'encode_list',
     'decode_list'
     ]
+
+def show_library() -> None:
+    print(f'Orbit Library Version {__version__}')
+    for library in __all__:
+        print(library)
 
 def version() -> str:
     return __version__
