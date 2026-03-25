@@ -10,10 +10,9 @@
 # The robot uses tank-drive with two joysticks.
 #
 from orbit.ble_client import BLEClient
-from machine import Pin, PWM
+from machine import Pin
 from orbit.buzzer import Buzzer
 from orbit.drive_train import DriveTrain
-from time import sleep
 
 class RCBaseBot:
     def __init__(self) -> None:

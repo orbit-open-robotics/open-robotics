@@ -7,6 +7,7 @@
 # Description:  This module controls a drive train with 2 motors using a motor driver DRV8833.
 # No sensors.
 #
+from orbit.joystick_range import JOYSTICK_MIN, JOYSTICK_MAX
 from machine import Pin, PWM
 from time import sleep, ticks_us
 
@@ -17,8 +18,8 @@ class DriveTrain:
     """
     # Speed control constants
     MAX_DUTY_CYCLE: int = 65535
-    LOW = 0 # Min value from Joystick Controller
-    HIGH = 100 # Max value from Joystick Controller
+    MIN_SPEED = -100
+    MAX_SPEED = 100 
     
     # Joystick message indices
     LEFT_X = 0
@@ -29,8 +30,8 @@ class DriveTrain:
     RIGHT_BUTTON = 5
     
     def __init__(self,
-                 left_pins=(10, 11),
-                 right_pins=(12, 13),
+                 left_pins=(13, 12),
+                 right_pins=(11, 10),
                  frequency: int=20_000)-> None: 
         """Initialize the DriveTrain object with the pins for the motors. Optionally 
         set the frequency of the PWM signal.
@@ -89,13 +90,13 @@ class DriveTrain:
         self.move(-speed, -speed, time)
         
     
-    def _get_speed(self, value):
-        """Convert joystick value to motor speed.
-        joystick value is [0, 100]. Motor speed is [-100, 100]"""
-        speed = 2 * value - DriveTrain.HIGH
-        if abs(speed) < 20:
-            speed = 0
-        return speed
+    # def _get_speed(self, value):
+    #     """Convert joystick value to motor speed.
+    #     joystick value is [0, 100]. Motor speed is [-100, 100]"""
+    #     speed = 2 * value - DriveTrain.HIGH
+    #     if abs(speed) < 20:
+    #         speed = 0
+    #     return speed
         
     def _speed_to_duty_cycle(self, speed: int)-> int:
         """Convert a speed (0-100) to a duty cycle. The speed is clamped
@@ -130,11 +131,21 @@ class DriveTrain:
         # Tank Drive
         left_x_value = int(values[DriveTrain.LEFT_X])
         right_x_value = int(values[DriveTrain.RIGHT_X])
-        left_speed = self._get_speed(left_x_value) # 2 * left_value - DriveTrain.HIGH
-        right_speed = self._get_speed(right_x_value)
+        # left_speed = self._get_speed(left_x_value) # 2 * left_value - DriveTrain.HIGH
+        # right_speed = self._get_speed(right_x_value)
+
+        left_speed = self._value_to_speed(left_x_value)
+        right_speed = self._value_to_speed(right_x_value)
         
         #print(f'{left_x_value},{left_y_value},{right_x_value},{right_y_value},{left_button},{right_button}')
         self.move(left_speed, right_speed)
+
+    def _value_to_speed(value: int) -> int:
+        slope - (DriveTrain.MAX_SPEED-DriveTrain.MIN_SPEED) / (JOYSTICK_MAX-JOYSTICK_MIN)
+        slope = DriveTrain.MIN_SPEED + slope * (value - JOYSTICK_MIN)
+        if abs(speed) < 20:
+            speed = 0
+        return speed
         
     def print_state(self)-> None:
         """Print the state of the motors.
