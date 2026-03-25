@@ -7,7 +7,7 @@
 # Description:  This module controls a drive train with 2 motors using a motor driver DRV8833.
 # No sensors.
 #
-from orbit.joystick_range import JOYSTICK_MIN, JOYSTICK_MAX
+from orbit.joystick_controller import JOYSTICK_MIN, JOYSTICK_MAX
 from machine import Pin, PWM
 from time import sleep, ticks_us
 

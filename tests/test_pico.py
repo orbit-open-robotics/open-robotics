@@ -5,7 +5,6 @@ print('Pico Information:')
 info = os.uname()
 print("Version:", info.version)      # detailed firmware build info
 print("Machine:", info.machine)
-
 print()
 
 # Orbit Library Version
