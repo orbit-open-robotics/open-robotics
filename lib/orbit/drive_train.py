@@ -9,7 +9,7 @@
 #
 from orbit.joystick_controller import JOYSTICK_MIN, JOYSTICK_MAX
 from machine import Pin, PWM
-from time import sleep, ticks_us
+from time import sleep
 
 class DriveTrain:
     """Class to control a drive train with 2 motors using a motor driver.
@@ -120,6 +120,11 @@ class DriveTrain:
         self.move(0, 0)
         
     def interpret(self, message) -> None:
+        """Interpret a message from the joystick controller and control the motors accordingly.
+
+        Args:
+            message (str): a comma-separated string containing values from the joystick controller
+        """
         values = message.split(',')
         
         # stop if the right button is pressed
@@ -140,9 +145,9 @@ class DriveTrain:
         #print(f'{left_x_value},{left_y_value},{right_x_value},{right_y_value},{left_button},{right_button}')
         self.move(left_speed, right_speed)
 
-    def _value_to_speed(value: int) -> int:
-        slope - (DriveTrain.MAX_SPEED-DriveTrain.MIN_SPEED) / (JOYSTICK_MAX-JOYSTICK_MIN)
-        slope = DriveTrain.MIN_SPEED + slope * (value - JOYSTICK_MIN)
+    def _value_to_speed(self, value: int) -> int:
+        slope = (DriveTrain.MAX_SPEED-DriveTrain.MIN_SPEED) / (JOYSTICK_MAX-JOYSTICK_MIN)
+        speed = DriveTrain.MIN_SPEED + slope * (value - JOYSTICK_MIN)
         if abs(speed) < 20:
             speed = 0
         return speed

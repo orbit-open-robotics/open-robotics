@@ -24,11 +24,13 @@ except ImportError:
 try:
     from .ble_client import BLEClient
 except ImportError:
+    print('Unable to find BLEClient.')
     BLEClient = None
     
 try:
     from .ble_server import BLEServer
 except ImportError:
+    print('Unable to find BLEServer.')
     BLEServer = None
 
 

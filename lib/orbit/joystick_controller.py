@@ -1,7 +1,7 @@
 #
 # Joystick Controller
 #
-from orbit import BLEServer
+from orbit.ble_server import BLEServer
 from machine import Pin, ADC
 from orbit import Buzzer
 
