@@ -22,12 +22,13 @@ class WebClient:
                  id: str,
                  subscribe_topic: str = "",
                  publish_topic: str = "",
-                 receive_command_func: Callable[[str, str], None] | None = None
-                 ) -> None:
+                 receive_command_func: Callable[[str, str], None] | None = None,
+                 execute_code: bool = True) -> None:
         self._id: str = id
         self._subscribe_topic: str = subscribe_topic
         self._publish_topic: str = publish_topic
         self._receive_command_func: Callable[[str, str], None] | None = receive_command_func
+        self._execute_code = execute_code
         
         self._connect_to_wifi(network_name=network_name, password=password)
         self._connect_mqtt()
@@ -52,8 +53,26 @@ class WebClient:
         if self._subscribe_topic :
             self.client.subscribe(self._subscribe_topic.encode())
             print(f"Subscribed to: {self._subscribe_topic}")
+            self.client.subscribe(self._get_execute_topic().encode())
+            print(f"Subscribed to: {self._get_execute_topic()}")
+        
+    def _get_execute_topic(self) -> str:
+        return self._subscribe_topic + '/code'
         
     def _receive_command_bytes(self, topic, message) -> None:
+        print(f'topic: {topic}')
+        if self._execute_code and topic.decode() == self._get_execute_topic():
+            print('executing code!')
+            try:
+                exec(message)
+                print("Program finished OK")
+            except Exception as e:
+                print("Error:", e)
+                
+            if self._publish_topic:
+                self.publish(self._publish_topic, 'Code received.')
+            return
+        
         if self._receive_command_func is not None:
             self._receive_command_func(topic.decode(), message.decode())
         

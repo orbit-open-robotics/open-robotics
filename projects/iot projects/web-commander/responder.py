@@ -27,7 +27,8 @@ web_client: WebClient = WebClient(
     id = "0",
     subscribe_topic = TOPIC_SUBSCRIBE,
     publish_topic = TOPIC_PUBLISH,
-    receive_command_func = receive_command)  
+    receive_command_func = receive_command,
+    execute_code = True)  
     
 while True:
     web_client.check_command()
