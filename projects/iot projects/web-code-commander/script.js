@@ -74,7 +74,7 @@ function sendCode() {
     const message = new Paho.Message(code);
     message.destinationName = TOPIC_TX_BASE + "/" + name + "/code";
     client.send(message);
-    log("Sent " + code.length + " bytes to + ${name}");
+    log("Sent " + code.length + ` bytes to + ${name}`);
 }
 
 function setStatus(type, text) {
