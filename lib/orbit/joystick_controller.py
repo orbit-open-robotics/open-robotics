@@ -1,9 +1,9 @@
 #
 # Joystick Controller
 #
-from orbit import BLEServer
+from orbit.ble_server import BLEServer
+from orbit.buzzer import Buzzer
 from machine import Pin, ADC
-from orbit import Buzzer
 
 # Values imported by clients
 JOYSTICK_MIN = -10
