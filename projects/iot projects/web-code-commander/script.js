@@ -1,6 +1,6 @@
 const BROKER = "broker.hivemq.com";
 const PORT = 8884;               // WSS port
-const TOPIC_TX_BASE = "orbit_pico/code";    // laptop → Pico
+const TOPIC_TX_BASE = "orbit_pico/command";    // laptop → Pico
 const TOPIC_RX_BASE = "orbit_pico/response";  // Pico → laptop
 
 const clientId = "webclient_" + Math.random().toString(16).slice(2, 8);
@@ -72,7 +72,7 @@ function sendCode() {
     }
 
     const message = new Paho.Message(code);
-    message.destinationName = TOPIC_TX_BASE + "/" + name;
+    message.destinationName = TOPIC_TX_BASE + "/" + name + "/code";
     client.send(message);
     log("Sent " + code.length + " bytes to + ${name}");
 }

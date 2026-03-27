@@ -20,8 +20,8 @@ class WebClient:
                  network_name: str,
                  password: str,
                  id: str,
-                 subscribe_topic: str,
-                 publish_topic: str,
+                 subscribe_topic: str = "",
+                 publish_topic: str = "",
                  receive_command_func: Callable[[str, str], None] | None = None
                  ) -> None:
         self._id: str = id
@@ -47,9 +47,11 @@ class WebClient:
         self.client: MQTTClient = MQTTClient(client_id, MQTT_BROKER, MQTT_PORT)
         self.client.set_callback(self._receive_command_bytes)
         self.client.connect()
-        self.client.subscribe(self._subscribe_topic.encode())
         print(f"Connected to broker: {MQTT_BROKER}")
-        print(f"Subscribed to: {self._subscribe_topic}")
+        
+        if self._subscribe_topic :
+            self.client.subscribe(self._subscribe_topic.encode())
+            print(f"Subscribed to: {self._subscribe_topic}")
         
     def _receive_command_bytes(self, topic, message) -> None:
         if self._receive_command_func is not None:
@@ -58,7 +60,9 @@ class WebClient:
     def check_command(self) -> None:
         self.client.check_msg()
         
-    def publish(self, topic: str = '', command: str = 'No command') -> None:
+    def publish(self, topic: str = '', message: str = 'No message') -> None:
         if topic == '': topic = self._publish_topic
-        self.client.publish(topic.encode(), command.encode())
-        print(f"Published: {command}")
+        if not topic:
+            print('Attempt to publish message with not topic')
+        self.client.publish(topic.encode(), message.encode())
+        print(f"Published: {message}")

@@ -16,9 +16,9 @@ TOPIC_SUBSCRIBE = TOPIC_SUBSCRIBE_BASE + '/' + ID
 
 respond = False
 
-def receive_command(topic, message)-> None:
-    print(f"Received on {topic}: {message}")
-    web_client.publish(command=f'Received {message}')
+def receive_command(topic, command)-> None:
+    print(f"Received on {topic}: {command}")
+    web_client.publish(message=f'Received {command}')
     
              
 web_client: WebClient = WebClient(
