@@ -10,32 +10,34 @@
 </head>
 
 <body>
-    <h2>Pico Code Editor</h2>
+    <h1>Web Commander</h1>
 
     <div id="status" class="disconnected">Disconnected from broker</div>
 
     <label for="name-input">Pico Name:</label>
     <input type="text" id="name-input">
 
+    <h2>Code</h2>
     <textarea id="code" placeholder="Type your MicroPython code here...">
 # Example: blink the onboard LED
 from machine import Pin
-import time
+from time import sleep
 
 led = Pin('LED', Pin.OUT)
 for _ in range(5):
     led.on()
-    time.sleep(0.5)
+    sleep(0.5)
     led.off()
-    time.sleep(0.5)
+    sleep(0.5)
 </textarea>
 
     <br>
     <button id="send-btn" disabled onclick="sendCode()">Send to Pico</button>
-    <button onclick="clearLog()">Clear Log</button>
 
-    <h3>Log</h3>
+
+    <h2>Log</h2>
     <div id="log"></div>
+    <button onclick="clearLog()">Clear Log</button>
 
 
 </body>
