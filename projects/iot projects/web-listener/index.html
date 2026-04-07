@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Web Listener</title>
+    <!-- Paho MQTT client for browsers -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.1.0/paho-mqtt.min.js"></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Web Listener</h1>
+
+    <!-- MQTT Status -->
+    <div id="status" class="disconnected">Disconnected from broker</div>
+
+    <!-- Topic input -->
+    <label for="topic-input">Topic:</label>
+    <input type="text" id="topic-input" placeholder="Enter topic to monitor" onchange="updateTopic()">
+
+    <!-- Value display -->
+    <div id="value">x</div>
+
+    <!-- Log section -->
+    <h2>Log</h2>
+    <div id="log"></div>
+    <button onclick="clearLog()">Clear Log</button>
+</body>
+
+</html>

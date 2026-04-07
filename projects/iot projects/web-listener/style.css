@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: monospace;
+    max-width: 45rem;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+h1, h2 {
+    margin-top: 0rem;
+}
+
+#value {
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+#status {
+    padding: 0.5rem;
+    margin: 1rem 0;
+    border-radius: 0.25rem;
+
+    &.connected {
+        background-color: rgb(0, 188, 0);
+        color: white;
+    }
+
+    &.disconnected {
+        background: rgb(255, 0, 0);
+        color: white;
+    }   
+}
+
+#log {
+    background: #1e1e1e;
+    color: #aaa;
+    padding: 0.75rem;
+    height: 9rem;
+    overflow-y: auto;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+button {
+    background: #0078d4;
+    color: white;
+    border: none;
+    padding: 0.25rem 2rem;
+    width: 10rem;
+    cursor: pointer;
+    font-size: 1rem;
+
+    &:disabled {
+        background: #555;
+        cursor: not-allowed;
+    }
+}
