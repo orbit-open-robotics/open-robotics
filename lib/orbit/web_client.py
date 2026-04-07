@@ -20,14 +20,15 @@ class WebClient:
                  network_name: str,
                  password: str,
                  id: str,
-                 subscribe_topic: str,
-                 publish_topic: str,
-                 receive_command_func: Callable[[str, str], None] | None = None
-                 ) -> None:
+                 subscribe_topic: str = "",
+                 publish_topic: str = "",
+                 receive_command_func: Callable[[str, str], None] | None = None,
+                 execute_code: bool = True) -> None:
         self._id: str = id
         self._subscribe_topic: str = subscribe_topic
         self._publish_topic: str = publish_topic
         self._receive_command_func: Callable[[str, str], None] | None = receive_command_func
+        self._execute_code = execute_code
         
         self._connect_to_wifi(network_name=network_name, password=password)
         self._connect_mqtt()
@@ -47,18 +48,40 @@ class WebClient:
         self.client: MQTTClient = MQTTClient(client_id, MQTT_BROKER, MQTT_PORT)
         self.client.set_callback(self._receive_command_bytes)
         self.client.connect()
-        self.client.subscribe(self._subscribe_topic.encode())
         print(f"Connected to broker: {MQTT_BROKER}")
-        print(f"Subscribed to: {self._subscribe_topic}")
+        
+        if self._subscribe_topic :
+            self.client.subscribe(self._subscribe_topic.encode())
+            print(f"Subscribed to: {self._subscribe_topic}")
+            self.client.subscribe(self._get_execute_topic().encode())
+            print(f"Subscribed to: {self._get_execute_topic()}")
+        
+    def _get_execute_topic(self) -> str:
+        return self._subscribe_topic + '/code'
         
     def _receive_command_bytes(self, topic, message) -> None:
+        print(f'topic: {topic}')
+        if self._execute_code and topic.decode() == self._get_execute_topic():
+            print('executing code!')
+            try:
+                exec(message)
+                print("Program finished OK")
+            except Exception as e:
+                print("Error:", e)
+                
+            if self._publish_topic:
+                self.publish(self._publish_topic, 'Code received.')
+            return
+        
         if self._receive_command_func is not None:
             self._receive_command_func(topic.decode(), message.decode())
         
     def check_command(self) -> None:
         self.client.check_msg()
         
-    def publish(self, topic: str = '', command: str = 'No command') -> None:
+    def publish(self, topic: str = '', message: str = 'No message') -> None:
         if topic == '': topic = self._publish_topic
-        self.client.publish(topic.encode(), command.encode())
-        print(f"Published: {command}")
+        if not topic:
+            print('Attempt to publish message with not topic')
+        self.client.publish(topic.encode(), message.encode())
+        print(f"Published: {message}")
