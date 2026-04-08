@@ -1,5 +1,6 @@
 #
 # Joystick Controller
+# This is the breadboard version
 #
 from orbit.ble_server import BLEServer
 from orbit.buzzer import Buzzer
