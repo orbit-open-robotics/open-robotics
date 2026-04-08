@@ -8,6 +8,7 @@ from machine import Pin, ADC
 # Values imported by clients
 JOYSTICK_MIN = -10
 JOYSTICK_MAX = 10
+THRESHOLD = 2
 
 class JoystickController:
     SIGNAL_MAX = 65_535
@@ -68,11 +69,13 @@ class JoystickController:
         return message
     
     def _signal_to_value(self, signal: int) -> int:
+        """Convert a signal [0-65,535] to the value to be transmitted"""
         signal_range = JoystickController.SIGNAL_MAX - JoystickController.SIGNAL_MIN
         slope = (JOYSTICK_MAX-JOYSTICK_MIN)/signal_range
         value = JOYSTICK_MIN + slope * (signal - JoystickController.self.SIGNAL_MIN)
-        value = 0 if abs(value) < 2 else value
+        value = 0 if abs(value) < THRESHOLD else value
         return int(value)
 
     def start(self) -> None:
+        """Start transmitting the joystick values"""
         self._ble_server.start()

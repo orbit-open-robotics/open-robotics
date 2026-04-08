@@ -89,27 +89,16 @@ class DriveTrain:
         """
         self.move(-speed, -speed, time)
         
-    
-    # def _get_speed(self, value):
-    #     """Convert joystick value to motor speed.
-    #     joystick value is [0, 100]. Motor speed is [-100, 100]"""
-    #     speed = 2 * value - DriveTrain.HIGH
-    #     if abs(speed) < 20:
-    #         speed = 0
-    #     return speed
-        
     def _speed_to_duty_cycle(self, speed: int)-> int:
-        """Convert a speed (0-100) to a duty cycle. The speed is clamped
+        """Convert a speed [0-100] to a duty cycle. The speed is clamped
         to the range 0-100
 
         Args:
-            speed (int): speed of the robot in the range 0-100
+            speed (int): speed of the robot in the range [0-100]
 
         Returns:
             int: duty cycle in the range 0-65535
         """
-        
-        # TODO: may need to have minimum duty cycle to get the motors to start
         speed = max(0, min(100, speed))
         return int(DriveTrain.MAX_DUTY_CYCLE * speed / 100)
     
@@ -136,8 +125,6 @@ class DriveTrain:
         # Tank Drive
         left_x_value = int(values[DriveTrain.LEFT_X])
         right_x_value = int(values[DriveTrain.RIGHT_X])
-        # left_speed = self._get_speed(left_x_value) # 2 * left_value - DriveTrain.HIGH
-        # right_speed = self._get_speed(right_x_value)
 
         left_speed = self._value_to_speed(left_x_value)
         right_speed = self._value_to_speed(right_x_value)
@@ -146,6 +133,14 @@ class DriveTrain:
         self.move(left_speed, right_speed)
 
     def _value_to_speed(self, value: int) -> int:
+        """_summary_
+
+        Args:
+            value (int): value sent from the joystick controller
+
+        Returns:
+            int: speed in the range [MIN_SPEED, MAX_SPEED]
+        """
         slope = (DriveTrain.MAX_SPEED-DriveTrain.MIN_SPEED) / (JOYSTICK_MAX-JOYSTICK_MIN)
         speed = DriveTrain.MIN_SPEED + slope * (value - JOYSTICK_MIN)
         if abs(speed) < 20:
@@ -153,8 +148,7 @@ class DriveTrain:
         return speed
         
     def print_state(self)-> None:
-        """Print the state of the motors.
-        """
+        """Print the state of the motors."""
         print("Left 1: ", self.left_1.duty_u16())
         print("Left 2: ", self.left_2.duty_u16())
         print("Right 1: ", self.right_1.duty_u16())
