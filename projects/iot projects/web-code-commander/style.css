@@ -7,8 +7,12 @@
 body {
     font-family: monospace;
     max-width: 45rem;
-    margin: 3rem auto;
+    margin: 2rem auto;
     padding: 0 1rem;
+}
+
+label, input {
+    font-size: 1rem;
 }
 
 textarea {
@@ -18,13 +22,7 @@ textarea {
     font-size: 1rem;
     background: #1e1e1e;
     color: #d4d4d4;
-    border: 1px solid #444;
     padding: 0.75rem;
-    box-sizing: border-box;
-}
-
-h1, h2 {
-    margin-top: 1rem;
 }
 
 button {
@@ -37,25 +35,24 @@ button {
     font-size: 1rem;
 
     &:disabled {
-        background: #555;
+        background: rgb(85, 85, 85);
         cursor: not-allowed;
     }
 }
 
 #status {
     padding: 0.5rem;
-    margin: 0.75rem 0;
     border-radius: 0.25rem;
-}
 
-.connected {
-    background-color: rgb(0, 188, 0);
-    color: white;
-}
+    &.connected {
+        background-color: rgb(0, 188, 0);
+        color: white;
+    }
 
-.disconnected {
-    background: rgb(255, 0, 0);
-    color: white;
+    &.disconnected {
+        background: rgb(255, 0, 0);
+        color: white;
+    }
 }
 
 .sent {
@@ -70,5 +67,12 @@ button {
     height: 9rem;
     overflow-y: auto;
     font-size: 0.75rem;
-    margin-bottom: 0.25rem;
+}
+
+.spacer {
+    height: 1rem;
+}
+
+.spacer-half {
+    height: 0.5rem;
 }

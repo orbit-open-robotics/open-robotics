@@ -8,13 +8,12 @@ body {
     font-family: monospace;
     max-width: 45rem;
     margin: 2rem auto;
-
+    padding: 0 1rem;
 }
 
 label, input {
     font-size: 1rem;
 }
-
 
 #value {
     font-weight: bold;
@@ -46,7 +45,7 @@ label, input {
     height: 9rem;
     overflow-y: auto;
     font-size: 0.75rem;
-    margin-bottom: 0.25rem;
+
 }
 
 button {
@@ -59,11 +58,15 @@ button {
     font-size: 1rem;
 
     &:disabled {
-        background: #555;
+        background: rgb(85, 85, 85);
         cursor: not-allowed;
     }
 }
 
 .spacer {
     height: 1rem;
+}
+
+.spacer-half {
+    height: 0.5rem;
 }

@@ -84,3 +84,11 @@ input {
     font-size: 1rem;
     margin-bottom: 0.5rem;
 }
+
+.spacer {
+    height: 1rem;
+}
+
+.spacer-half {
+    height: 0.5rem;
+}
