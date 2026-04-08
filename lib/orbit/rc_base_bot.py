@@ -29,6 +29,10 @@ class RCBaseBot:
         
         self._ble_led.off()
 
+    @property
+    def drive_train(self) -> DriveTrain:
+        return self._drive_train
+
     def _connected(self) -> None:
         """This function is the default method for BLE connection"""
         print('CONNECTED')
