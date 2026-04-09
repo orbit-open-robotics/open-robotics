@@ -131,7 +131,7 @@ class BLEClient:
             await asyncio.sleep_ms(100)
     
 
-# Test code to run the BLE clien
+# Test code to run the BLE client
 if __name__ == "__main__":
     try:
         client = BLEClient("JoystickController")

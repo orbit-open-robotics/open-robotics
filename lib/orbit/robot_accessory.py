@@ -3,7 +3,7 @@
 #
 class RobotAccessory:
     def __init__(self) -> None:
-        print(f'Creating: {type(self).__name__}')
+        pass
 
     def initialize(self) -> None:
         pass

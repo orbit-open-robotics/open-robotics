@@ -2,7 +2,7 @@
 # rc_base_bot
 #
 # Version: 2
-# Date: 2026-04-08
+# Date: 2026-04-09
 # Author Sam Linton
 # Description: This script controls a robot that is controlled with 
 # Bluetooth Low Energy (BLE) using a JoystickController. 
@@ -11,6 +11,7 @@
 # The robot uses tank-drive with two joysticks.
 #
 from orbit.ble_client import BLEClient
+from orbit.robot_accessory import RobotAccessory
 from machine import Pin
 from orbit.buzzer import Buzzer
 from orbit.drive_train import DriveTrain
@@ -26,38 +27,61 @@ class RCBaseBot:
             on_connected_func=self._connected,
             on_disconnected_func=self._disconnected,
             receive_interval_ms=50) #50
+        self._accessories = []
         
-        self._ble_led.off()
+        self._ble_led.off()        
+        for accessory in self._accessories:
+            accessory.initialize()
 
     @property
     def drive_train(self) -> DriveTrain:
         return self._drive_train
+    
+    def add_accessor(self, accessory: RobotAccessory) -> None:
+        """Add accessory to the robot
+        Args:
+            accessory (RobotAccessory): RobotAccessory to add
+        """
+        self._accessories.append(accessory)
 
     def _connected(self) -> None:
         """This function is the default method for BLE connection"""
         print('CONNECTED')
         self._ble_led.on()
         self._buzzer.begin_sound()
+        for accessory in self._accessories:
+            accessory.connected
     
     def _disconnected(self) -> None:
         """This function is the default method for BLE disconnection"""
         print('DISCONNECTED')
         self._ble_led.off()
         self._buzzer.end_sound()
+        for accessory in self._accessories:
+            accessory.disconnected()
 
     def _receive_message(self, message: str) -> None:
         """Default method called when a message is received.
-
         Args:
             message (str): method received from server
         """
         self._drive_train.interpret(message)
+        for accessory in self._accessories:
+            accessory.interpret(message)
     
     def start(self)-> None:
         """Method to start the robot running"""
         self._ble_client.start()
-        
+        for accessory in self._accessories:
+            accessory.start()
 
+    def stop(self) -> None:
+        """Method to stop the robot"""
+        # TODO: stop the BLEClient?
+        for accessory in self._accessories:
+            accessory.stop()
+
+        
 if __name__ == '__main__':
     rc_basebot = RCBaseBot()
     rc_basebot.start()
