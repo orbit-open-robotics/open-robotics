@@ -1,4 +1,4 @@
-__version__ = '2026_03_27'
+__version__ = '2026_04_11'
 
 from .buzzer import Buzzer
 from .led import Led
@@ -14,6 +14,7 @@ from .drive_train import DriveTrain
 from .rc_base_bot import RCBaseBot
 from .partial import partial
 from .codec import encode_list, decode_list
+from .robot_accessory import RobotAccessory
 
 try:
     from .web_client import WebClient
@@ -52,7 +53,8 @@ __all__=[
     'RCBaseBot',
     'partial',
     'encode_list',
-    'decode_list'
+    'decode_list',
+    'RobotAccessory'
     ]
 
 def show_library() -> None:
