@@ -16,7 +16,7 @@ import uasyncio as asyncio
 class Led:
     UNLIMITED = -1
     
-    def __init__(self, pin=6):
+    def __init__(self, pin = 6) -> None:
         self.pin = Pin(pin, Pin.OUT)
         self.timer = Timer()
         self.periods = None
@@ -24,24 +24,24 @@ class Led:
         self.forever = False # Repeat the pattern forever
         self.count = 0       # Number of times to repeat pattern
         
-    def on(self):
+    def on(self) -> None:
         """Turn the LED on."""
         self.index = -1
         self.pin.value(1)
         self.timer.deinit()
         
-    def off(self):
+    def off(self) -> None:
         """Turn the LED off."""
         self.index = -1
         self.pin.value(0)
         self.timer.deinit()
         
-    def toggle(self):
+    def toggle(self) -> None:
         """Toggle the LED state."""
         self.index = -1
         self.pin.toggle()
         
-    def _update_index(self):
+    def _update_index(self) -> None:
         """Private method to update the index for cycling through the blink pattern."""
         self.index += 1
         if self.index >= len(self.periods):
@@ -51,7 +51,7 @@ class Led:
             else:
                 self.index = -1
 
-    def _switch(self, timer):
+    def _switch(self, timer) -> None:
         """Private function to start the LED blinking."""
          # If index is negative, stop the timer
          # This happens when the count reaches zero or the pattern ends
@@ -64,7 +64,7 @@ class Led:
         self._update_index()
         self.timer.init(mode=Timer.ONE_SHOT, period=period, callback=self._switch)
         
-    def blink(self, periods=(50, 500), count=-1):
+    def blink(self, periods=(50, 500), count=-1) -> None:
         """Blink the LED with specified periods and count.
         This method will toggle the LED on and off according to the specified periods.
 

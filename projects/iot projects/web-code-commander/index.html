@@ -13,10 +13,12 @@
     <h1>Web Commander</h1>
 
     <div id="status" class="disconnected">Disconnected from broker</div>
-
+    <div class="spacer"></div>
+    
     <label for="name-input">Pico Name:</label>
     <input type="text" id="name-input">
-
+    <div class="spacer"></div>
+    
     <h2>Code</h2>
     <textarea id="code" placeholder="Type your MicroPython code here...">
 # Example: blink the onboard LED
@@ -33,7 +35,7 @@ for _ in range(5):
 
     <div class="spacer-half"></div>
     <button id="send-btn" disabled onclick="sendCode()">Send to Pico</button>
-
+    <div class="spacer"></div>
 
     <h2>Log</h2>
     <div id="log"></div>

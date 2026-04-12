@@ -27,13 +27,13 @@ class BLEClient:
     """
     
     def __init__(self,
-                 server_name:str,
+                 server_name: str,
                  receive_message_func = None,
-                 on_connected_func=None,
-                 on_disconnected_func=None,
-                 receive_interval_ms:int = 1000,
-                 service_uuid:bluetooth.UUID = _GENERIC_SERVICE_UUID,
-                 char_uuid:bluetooth.UUID = _GENERIC_CHAR_UUID)-> None:
+                 on_connected_func = None,
+                 on_disconnected_func = None,
+                 receive_interval_ms: int = 1000,
+                 service_uuid: bluetooth.UUID = _GENERIC_SERVICE_UUID,
+                 char_uuid: bluetooth.UUID = _GENERIC_CHAR_UUID)-> None:
         """Initialize the BLEClient object.
 
         Args:
