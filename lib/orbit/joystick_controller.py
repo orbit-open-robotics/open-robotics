@@ -60,8 +60,8 @@ class JoystickController:
     def _create_message(self) -> str:
         """Create a message to send to the connected BLE client."""
         lx = self._signal_to_value(self._left_x.read_u16())
-        ly = self._left_y.read_u16() // 655
-        rx = self._right_x.read_u16() // 655
+        ly = self._signal_to_value(self._left_y.read_u16())
+        rx = self._signal_to_value(self._right_x.read_u16())
         ry = 0
         lb = self._l_button.value()
         rb = self._r_button.value()
@@ -73,7 +73,7 @@ class JoystickController:
         """Convert a signal [0-65,535] to the value to be transmitted"""
         signal_range = JoystickController.SIGNAL_MAX - JoystickController.SIGNAL_MIN
         slope = (JOYSTICK_MAX-JOYSTICK_MIN)/signal_range
-        value = JOYSTICK_MIN + slope * (signal - JoystickController.self.SIGNAL_MIN)
+        value = JOYSTICK_MIN + slope * (signal - JoystickController.SIGNAL_MIN)
         value = 0 if abs(value) < THRESHOLD else value
         return int(value)
 

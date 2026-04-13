@@ -1,5 +1,5 @@
-from orbit import Tester
-from orbit import DriveTrain
+from orbit import Tester, DriveTrain
+from time import sleep
 
 def test_forward(dt: DriveTrain) -> None:
     print('forward for 1 second...', end='')
@@ -50,9 +50,10 @@ tester = Tester()
 dt = DriveTrain()
 
 tester.add("forward", test_forward, dt)
-tester.add("backward", test_forward, dt)
-tester.add("stop", test_forward, dt)
-tester.add("move", test_forward, dt)
-tester.add("swerve left", test_forward, dt)
-tester.add("swerve right", test_forward, dt)
+tester.add("backward", test_backward, dt)
+tester.add("stop", test_stop, dt)
+tester.add("move", test_move, dt)
+tester.add("swerve left", test_swerve_left, dt)
+tester.add("swerve right", test_swerve_right, dt)
 tester.run_tests()
+
