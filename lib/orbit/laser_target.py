@@ -4,22 +4,21 @@
 import uasyncio as asyncio
 from orbit.robot_accessory import RobotAccessory
 from orbit.buzzer import Buzzer
-from machine import ADC
-from enum import Enum
+from machine import ADC, Pin
 
 class LaserTarget(RobotAccessory):
     MAX_VALUE = 65_535
     CHECK_INTERVAL_MS = 100
     HIT_DURATION_MS = 2000
 
-    class State(Enum):
+    class State:
         NOT_HIT = 0
         HIT = 1
 
     def __init__(self, 
                  pin: int = 26,
-                 threshold: float = 0.8, 
-                 buzzer_pin: int = 10,
+                 threshold: float = 0.4, 
+                 buzzer_pin: int = 22,
                  state: State = State.NOT_HIT,
                  max_hits: int = 4,
                  hit_function = None,
@@ -41,6 +40,7 @@ class LaserTarget(RobotAccessory):
 
     def is_hit(self) -> bool:
         value: float = (self._light.read_u16() - self._baseline) / (self.MAX_VALUE - self._baseline)
+        print(value)
         return value >= self._threshold 
     
     def reset(self) -> None:
@@ -51,6 +51,7 @@ class LaserTarget(RobotAccessory):
         for _ in range(count):
             self._baseline += self._light.read_u16()
         self._baseline //= count
+        print(f'baseline: {self._baseline}')
 
     def start(self)-> None:
         """Start waiting for laser hits."""

@@ -8,11 +8,13 @@ def hit_function():
 
 def max_hit_function():
     print("Max hits reached!")
-``
+
 
 
 if __name__ == "__main__":
-    laserTarget = LaserTarget(hit_function)
+    laserTarget = LaserTarget(
+        hit_function = hit_function,
+        max_hit_function = max_hit_function)
     laserTarget.initialize()
     laserTarget.start()
 

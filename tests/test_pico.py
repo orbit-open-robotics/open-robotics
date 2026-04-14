@@ -9,7 +9,6 @@ print()
 
 # Orbit Library Version
 from orbit import version, show_library
-print(f'Orbit library version: {version()}')
 show_library()
 
 # Blink (Pico-W)
