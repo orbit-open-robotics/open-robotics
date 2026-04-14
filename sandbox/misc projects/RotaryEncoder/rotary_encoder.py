@@ -10,13 +10,13 @@ import uasyncio as asyncio
 
 class RotaryEncoder:
     def __init__(self,
-                 sw,
-                 dt,
-                 clk,
-                 on_button_down_func=None,
-                 on_button_up_func=None,
-                 on_left_func=None,
-                 on_right_func=None)-> None:
+                 sw: int,
+                 dt: int,
+                 clk: int,
+                 on_button_down_func = None,
+                 on_button_up_func = None,
+                 on_left_func = None,
+                 on_right_func = None) -> None:
         """Initialize the RotaryEncoder class.
 
         Args:
@@ -42,7 +42,6 @@ class RotaryEncoder:
         self.on_button_down_func = on_button_down_func
         self.on_button_up_func = on_button_up_func
 
-        
     def print_values(self)-> None:
         """Print the values of the rotary encoder and button.
         """
@@ -92,17 +91,16 @@ class RotaryEncoder:
                     self.on_rotary_left()
                    
                 else:
-                    if self.on_right_func:
-                        self.on_right_func()
+                    self.on_rotary_right()
             self.previous = current
             
         # Button part
         button_value = self.button.value()
         if self.button_down and button_value == 1:
-            print('UP')
+            self. on_button_up()
             self.button_down = False
         elif not self.button_down and button_value == 0:
-            print('DN')
+            self.on_button_down()
             self.button_down = True
             
     async def run_loop(self)-> None:

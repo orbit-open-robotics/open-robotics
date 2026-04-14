@@ -15,6 +15,7 @@ from orbit.robot_accessory import RobotAccessory
 from machine import Pin
 from orbit.buzzer import Buzzer
 from orbit.drive_train import DriveTrain
+import uasyncio as asyncio
 
 class RCBaseBot:
     def __init__(self) -> None:
@@ -69,6 +70,23 @@ class RCBaseBot:
         for accessory in self._accessories:
             accessory.interpret(message)
     
+    # TODO: going to have to change this to collection of asynchronous commands
+    # tasks = [
+    #     asyncio.create_task(manager.read_sensor("temp")),
+    #     asyncio.create_task(manager.read_sensor("humidity")),
+    #     asyncio.create_task(manager.run()),  # long-running task
+    # ]
+    # # Await them later, or just let them run
+    # await asyncio.gather(*tasks)
+
+    def start_2(self) -> None:
+        tasks = []
+        tasks.append(self._ble_client.run_loop)
+        for accessory in self._accessories:
+            if accessory.run_loop:
+                tasks.append(accessory.run_loop)
+        await asyncio.gather(*tasks)
+
     def start(self)-> None:
         """Method to start the robot running"""
         self._ble_client.start()
@@ -78,6 +96,7 @@ class RCBaseBot:
     def stop(self) -> None:
         """Method to stop the robot"""
         # TODO: stop the BLEClient?
+        # t.cancel()
         for accessory in self._accessories:
             accessory.stop()
 
