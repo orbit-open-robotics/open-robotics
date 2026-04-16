@@ -5,10 +5,19 @@ from orbit import Laser
 from time import sleep
 
 laser = Laser()
-# Turn on the laser
-print('Turning laser on...', end='')
-laser.interpret("0,0,0,0,0,0,0")
+
+print('Turning laser on.')
+laser.on()
 sleep(1)
-print('Turning laser off...', end='')
-laser.interpret("0,0,0,0,0,0,1")
-print('Done.')
+
+print('Turning laser off.')
+laser.off()
+sleep(1)
+
+# Turn on the laser
+print('Turning laser on.')
+laser.interpret("0,0,0,0,0,1")
+sleep(1)
+
+print('Turning laser off')
+laser.interpret("0,0,0,0,0,0")

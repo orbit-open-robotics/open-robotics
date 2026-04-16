@@ -16,6 +16,9 @@ class RobotAccessory:
 
     def interpret(self, message) -> None:
         pass
+    
+    async def run_loop(self) -> None:
+        pass
 
     def start(self) -> None:
         pass

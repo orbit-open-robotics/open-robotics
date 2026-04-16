@@ -31,14 +31,18 @@ class RCBaseBot:
         self._accessories = []
         
         self._ble_led.off()        
-        for accessory in self._accessories:
-            accessory.initialize()
+
 
     @property
     def drive_train(self) -> DriveTrain:
         return self._drive_train
     
-    def add_accessor(self, accessory: RobotAccessory) -> None:
+    def initialize(self) -> None:
+        print('initialize')
+        for accessory in self._accessories:
+            accessory.initialize()
+    
+    def add_accessory(self, accessory: RobotAccessory) -> None:
         """Add accessory to the robot
         Args:
             accessory (RobotAccessory): RobotAccessory to add
@@ -79,19 +83,25 @@ class RCBaseBot:
     # # Await them later, or just let them run
     # await asyncio.gather(*tasks)
 
-    def start_2(self) -> None:
+    async def run_loop(self) -> None:
+        print('run_loop started')
         tasks = []
-        tasks.append(self._ble_client.run_loop)
+        tasks.append(asyncio.create_task(self._ble_client.run_loop()))
         for accessory in self._accessories:
             if accessory.run_loop:
-                tasks.append(accessory.run_loop)
+                print('Adding a function')
+                tasks.append(asyncio.create_task(accessory.run_loop))
         await asyncio.gather(*tasks)
 
-    def start(self)-> None:
-        """Method to start the robot running"""
-        self._ble_client.start()
-        for accessory in self._accessories:
-            accessory.start()
+    def start(self) -> None:
+        print('start')
+        asyncio.run(self.run_loop())
+
+#     def start(self)-> None:
+#         """Method to start the robot running"""
+#         self._ble_client.start()
+#         for accessory in self._accessories:
+#             accessory.start()
 
     def stop(self) -> None:
         """Method to stop the robot"""
