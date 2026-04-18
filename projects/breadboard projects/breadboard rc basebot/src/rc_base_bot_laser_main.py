@@ -7,7 +7,7 @@ if __name__ == "__main__":
     laserTarget = LaserTarget()
     laser = Laser()
     robot = RCBaseBot()
-#     robot.add_accessory(laserTarget)
+    robot.add_accessory(laserTarget)
     robot.add_accessory(laser)
     robot.initialize()
     robot.start()

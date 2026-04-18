@@ -96,7 +96,7 @@ class BLEClient:
         """
         message = await self.characteristic.read()
         message_str = message.decode('utf-8')
-        print(f'Receive message: {message_str}')
+#         print(f'Receive message: {message_str}')
         
         if self.receive_message_func:
             self.receive_message_func(message_str)

@@ -18,12 +18,12 @@ from orbit.drive_train import DriveTrain
 import uasyncio as asyncio
 
 class RCBaseBot:
-    def __init__(self) -> None:
+    def __init__(self, server_name: str = 'JoystickController') -> None:
         self._buzzer = Buzzer(pin = 22)
         self._ble_led = Pin(6, Pin.OUT)
         self._drive_train = DriveTrain()
         self._ble_client = BLEClient(
-            server_name='JoystickController',
+            server_name=server_name,
             receive_message_func=self._receive_message,
             on_connected_func=self._connected,
             on_disconnected_func=self._disconnected,
@@ -73,15 +73,6 @@ class RCBaseBot:
         self._drive_train.interpret(message)
         for accessory in self._accessories:
             accessory.interpret(message)
-    
-    # TODO: going to have to change this to collection of asynchronous commands
-    # tasks = [
-    #     asyncio.create_task(manager.read_sensor("temp")),
-    #     asyncio.create_task(manager.read_sensor("humidity")),
-    #     asyncio.create_task(manager.run()),  # long-running task
-    # ]
-    # # Await them later, or just let them run
-    # await asyncio.gather(*tasks)
 
     async def run_loop(self) -> None:
         print('run_loop started')
@@ -90,18 +81,12 @@ class RCBaseBot:
         for accessory in self._accessories:
             if accessory.run_loop:
                 print('Adding a function')
-                tasks.append(asyncio.create_task(accessory.run_loop))
+                tasks.append(asyncio.create_task(accessory.run_loop()))
         await asyncio.gather(*tasks)
 
     def start(self) -> None:
         print('start')
         asyncio.run(self.run_loop())
-
-#     def start(self)-> None:
-#         """Method to start the robot running"""
-#         self._ble_client.start()
-#         for accessory in self._accessories:
-#             accessory.start()
 
     def stop(self) -> None:
         """Method to stop the robot"""

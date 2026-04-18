@@ -6,6 +6,8 @@ from orbit.robot_accessory import RobotAccessory
 from orbit.buzzer import Buzzer
 from machine import ADC, Pin
 
+DEBUG = True
+
 class LaserTarget(RobotAccessory):
     MAX_VALUE = 65_535
     CHECK_INTERVAL_MS = 100
@@ -40,7 +42,7 @@ class LaserTarget(RobotAccessory):
 
     def is_hit(self) -> bool:
         value: float = (self._light.read_u16() - self._baseline) / (self.MAX_VALUE - self._baseline)
-        print(value)
+        if DEBUG: print(value)
         return value >= self._threshold 
     
     def reset(self) -> None:

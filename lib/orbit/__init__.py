@@ -1,4 +1,4 @@
-__version__ = '2026_04_13'
+__version__ = '2026_04_18'
 
 from .buzzer import Buzzer
 from .led import Led
@@ -62,7 +62,7 @@ __all__=[
     ]
 
 def show_library() -> None:
-    print(f'Orbit Library Version {__version__}')
+    print(f'ORBIT Library Version {__version__}')
     for library in __all__:
         print(library)
 
