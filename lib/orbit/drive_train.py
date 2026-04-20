@@ -8,6 +8,7 @@
 # No sensors.
 #
 from orbit.joystick_controller import JOYSTICK_MIN, JOYSTICK_MAX
+from orbit.joystick_controller import JOYSTICK_LEFT_X, JOYSTICK_RIGHT_X, JOYSTICK_RIGHT_BUTTON
 from machine import Pin, PWM
 from time import sleep
 
@@ -20,14 +21,6 @@ class DriveTrain:
     MAX_DUTY_CYCLE: int = 65535
     MIN_SPEED = -100
     MAX_SPEED = 100 
-    
-    # Joystick message indices
-    LEFT_X = 0
-    LEFT_Y = 1
-    RIGHT_X = 2
-    RIGHT_Y = 3
-    LEFT_BUTTON = 4
-    RIGHT_BUTTON = 5
     
     def __init__(self,
                  left_pins=(13, 12),
@@ -117,14 +110,14 @@ class DriveTrain:
         values = message.split(',')
         
         # stop if the right button is pressed
-        right_button = int(values[DriveTrain.RIGHT_BUTTON])
+        right_button = int(values[JOYSTICK_RIGHT_BUTTON])
         if right_button == 0:
             self.stop()
             return
         
         # Tank Drive
-        left_x_value = int(values[DriveTrain.LEFT_X])
-        right_x_value = int(values[DriveTrain.RIGHT_X])
+        left_x_value = int(values[JOYSTICK_LEFT_X])
+        right_x_value = int(values[JOYSTICK_RIGHT_X])
 
         left_speed = self._value_to_speed(left_x_value)
         right_speed = self._value_to_speed(right_x_value)
@@ -141,7 +134,7 @@ class DriveTrain:
         Returns:
             int: speed in the range [MIN_SPEED, MAX_SPEED]
         """
-        slope = (DriveTrain.MAX_SPEED-DriveTrain.MIN_SPEED) / (JOYSTICK_MAX-JOYSTICK_MIN)
+        slope = (DriveTrain.MAX_SPEED - DriveTrain.MIN_SPEED) / (JOYSTICK_MAX - JOYSTICK_MIN)
         speed = DriveTrain.MIN_SPEED + slope * (value - JOYSTICK_MIN)
         if abs(speed) < 20:
             speed = 0

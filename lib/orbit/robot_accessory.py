@@ -19,6 +19,9 @@ class RobotAccessory:
     
     async def run_loop(self) -> None:
         pass
+    
+    def stop_loop(self) -> None:
+        pass
 
     def start(self) -> None:
         pass

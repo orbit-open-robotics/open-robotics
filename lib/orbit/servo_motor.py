@@ -24,6 +24,8 @@
 
 import uasyncio as asyncio
 
+DEBUG = False
+
 class ServoMotor:
     STOPPED: str = 'stopped'
     INCREASING: str = 'increasing'
@@ -96,7 +98,7 @@ class ServoMotor:
         self._set_raw_angle(raw_angle)
         self._angle = angle
         self._initialized = True
-        print(f'Setting {self._name} to {self._angle}')
+        if DEBUG: print(f'Setting {self._name} to {self._angle}')
     
     def move_to_angle(self, angle: float, time: float = 0.0, angle_inc: float = 1.0) -> None:
         """Move to the specified angle over the specified time in steps of angle_inc."""
@@ -115,12 +117,12 @@ class ServoMotor:
         t = 0.0
         for n in range(num_steps):
             new_angle: float = start_angle + (n + 1) * angle_inc
-            print(f'Moving to angle: {new_angle} (step {n}/{num_steps})')
+            if DEBUG: print(f'Moving to angle: {new_angle} (step {n}/{num_steps})')
             self.set_angle(new_angle)
             if n < num_steps -1: 
                 self._sleep(time_inc)
                 t += time_inc
-            print(f'Angle {new_angle} at time {t:.2f} seconds')
+            if DEBUG: print(f'Angle {new_angle} at time {t:.2f} seconds')
 
     def move_by(self, angle_inc: float) -> None:
         """Move the servo by the specified angle increment."""
@@ -137,7 +139,7 @@ class ServoMotor:
 
     def move_to_start(self, time: float = 0.0, angle_inc: float = 1.0) -> None:
         """Move to the start angle."""
-        print(f'move_to_start {self.angle_start}')
+        if DEBUG: print(f'move_to_start {self.angle_start}')
         self.move_to_angle(self.angle_start, time=time, angle_inc=angle_inc)
 
     def move_to_end(self, time: float = 0.0, angle_inc: float = 1.0) -> None:
@@ -146,25 +148,25 @@ class ServoMotor:
 
     def start_increasing(self) -> None:
         if not self._state == ServoMotor.INCREASING:
-            print('start_increasing')
+            if DEBUG: print('start_increasing')
         self._state = ServoMotor.INCREASING
 
     def start_decreasing(self) -> None:
         """Start decreasing the servo angle."""
         if not self._state == ServoMotor.DECREASING:
-            print('start_decreasing')
+            if DEBUG: print('start_decreasing')
         self._state = ServoMotor.DECREASING
 
     def stop(self) -> None:
         """Stop servo movement."""
         if not self._state == ServoMotor.STOPPED:
-            print('stop')
+            if DEBUG: print('stop')
         self._state = ServoMotor.STOPPED
         
-    def terminate(self) -> None:
+    def stop_loop(self) -> None:
         """Terminate servo movement."""
         if not self._state == ServoMotor.TERMINATED:
-            print('terminated')
+            if DEBUG: print('terminated')
         self._state = ServoMotor.TERMINATED
 
     def off(self) -> None:
