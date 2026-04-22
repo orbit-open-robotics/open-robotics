@@ -31,10 +31,10 @@ class Lifter(RobotAccessory):
         self._servo = servo
         
     def start_lift(self) -> None:
-        self._servo.start_increasing()
+        self._servo.start_decreasing()
         
     def start_lower(self) -> None:
-        self._servo.start_decreasing()
+        self._servo.start_increasing()
         
     def stop(self) -> None:
         self._servo.stop()
