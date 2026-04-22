@@ -1,20 +1,32 @@
 from orbit import ServoMotor, Lifter
 import uasyncio as asyncio
 
-# 
-# async def run_loop():
-#     await asyncio.gather(asyncio.create_task(lifter.start_loop),
-#                          asyncio.create_task(terminate_after_delay(lifter)))
-# 
-# def test_terminate_after_delay():
-#     
-#     asyncio.run(run_loop())
-# 
-# async def terminate_after_delay(lifter):
-#     print('start terminate_after_delay...', end='')
-#     await asyncio.sleep_ms(2000)
-#     lifter.stop_loop()
-#     print('done')
+async def test_movement():
+    await asyncio.sleep(1)
+    
+    print('start lifting...', end='')
+    lifter.start_lift()
+    await asyncio.sleep(1)
+    lifter.stop()
+    print('done')
+    
+    await asyncio.sleep(1)
+  
+    print('start lowering...', end='')
+    lifter.start_lower()
+    await asyncio.sleep(1)
+    lifter.stop()
+    print('done')
+        
+    await asyncio.sleep(1)
+    lifter.stop_loop()
+
+
+async def test_async():
+    await asyncio.gather(
+        lifter.run_loop(),
+        test_movement()
+        )
 
 if __name__ == '__main__':
     from orbit import PWMServoMotor
@@ -56,15 +68,7 @@ if __name__ == '__main__':
     print('done')
     sleep(2)
     
-#     print('Starting asynchronous mode...', end='')
-#     asyncio.run(lifter.run_loop())
-#     print('after')
-#     sleep(1)
-#     lifter.stop_loop()
-#     print('done')
-
-    # TODO: add async tests
-    #
+    asyncio.run(test_async())
     
     print('off.')
     lifter.off()
