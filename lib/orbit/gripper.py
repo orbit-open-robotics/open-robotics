@@ -53,16 +53,16 @@ class Gripper(RobotAccessory):
         values = message.split(',')
         
         flag = 1 - int(values[JOYSTICK_RIGHT_BUTTON])
-        gripper_value = int(values[JOYSTICK_LEFT_Y])
+        value = int(values[JOYSTICK_LEFT_Y])
 
         if flag == 0:
             self.stop()
             return
         
         if value > 0.2 * JOYSTICK_MAX:
-            self.start_lower()
+            self.start_open()
         elif value < 0.2 * JOYSTICK_MIN:
-            self.start_lift()
+            self.start_close()
         else:
             self.stop()
         

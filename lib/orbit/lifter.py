@@ -60,12 +60,12 @@ class Lifter(RobotAccessory):
             self.stop()
             return
 
-        lifter_value  = int(values[JOYSTICK_LEFT_X])
+        value  = int(values[JOYSTICK_LEFT_X])
         
         if value > 0.2 * JOYSTICK_MAX:
-            self.start_lower()
-        elif value < 0.2 * JOYSTICK_MIN:
             self.start_lift()
+        elif value < 0.2 * JOYSTICK_MIN:
+            self.start_lower()
         else:
             self.stop()
      
