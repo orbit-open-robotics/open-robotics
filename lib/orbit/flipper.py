@@ -1,10 +1,10 @@
 #
-# Lifter
+# Flipper
 #
-# Version: 2.00
-# Date: 2025-12-28
+# Version: 1.00
+# Date: 2026-05-02
 # Author: Sam Linton
-# Description: A class that runs the lifter mechanism of a claw.
+# Description: A class that runs the flipper mechanism
 # This uses the ServoMotor class
 #
 from orbit.joystick_controller import JOYSTICK_MIN, JOYSTICK_MAX
@@ -14,12 +14,11 @@ from orbit import RobotAccessory
 import uasyncio as asyncio
 
 
-
-class Lifter(RobotAccessory):
-    """Implement a lifter mechanism
+class Flipper(RobotAccessory):
+    """Implement a flipper mechanism
     
-    lift at bottom is considered the start
-    lift at top is considered the end
+    flipper at bottom is considered the start
+    flipper at top is considered the end
 
     """
     def __init__(self, servo) -> None:
@@ -29,7 +28,6 @@ class Lifter(RobotAccessory):
            servo - ServoMotor derived class
         """
         self._servo = servo
-        
         
     def initialize(self) -> None:
         self.lower()
@@ -58,12 +56,6 @@ class Lifter(RobotAccessory):
     def interpret(self, message) -> None:
         """Interpret JoystickController message"""
         values = message.split(',')
-        
-        flag = 1 - int(values[JOYSTICK_RIGHT_BUTTON])
-        if flag == 0:
-            self.stop()
-            return
-
         value  = int(values[JOYSTICK_LEFT_X])
         
         if value > 0.2 * JOYSTICK_MAX:
@@ -74,52 +66,8 @@ class Lifter(RobotAccessory):
             self.stop()
      
     async def run_loop(self) -> None:
-        print('lifter run_loop')
+        print('flipper run_loop')
         await self._servo.run_loop()
         
     def stop_loop(self) -> None:
         self._servo.stop_loop()
-        
-
-# if __name__ == '__main__':
-#     from orbit import PWMServoMotor
-#     from time import sleep
-#     
-#     raw_angle_0 = 180.0
-#     angle_start = 0
-#     angle_end = 180
-#     time = 0.5
-#     angle_inc = 1.0
-#     
-#     servo = PWMServoMotor(pin=16,
-#                           raw_angle_0 = raw_angle_0,
-#                           angle_start = angle_start,
-#                           angle_end = angle_end,
-#                           angle_home = angle_start,
-#                           sign = -1)
-#     servo.home()
-#     
-#     lifter = Lifter(servo)
-#     
-#     print('lift...', end='')
-#     lifter.lift(time = time, angle_inc = angle_inc)
-#     print('done')
-#     sleep(2)
-#     
-#     print('lower...', end='')
-#     lifter.lower(time = time, angle_inc = angle_inc)
-#     print('done')
-#     sleep(2)
-#     
-#     print('lift...', end='')
-#     lifter.lift(time = time, angle_inc = angle_inc)
-#     print('done')
-#     sleep(2)
-#     
-#     print('lower...', end='')
-#     lifter.lower(time = time, angle_inc = angle_inc)
-#     print('done')
-#     sleep(2)
-#     
-#     print('off.')
-#     lifter.off()
