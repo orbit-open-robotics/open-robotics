@@ -1,0 +1,33 @@
+#Library
+The best option is rdagger/micropython-ili9341 — it supports both the ILI9341 display and the XPT2046 touch controller.
+Download these files and copy them to your Pico (via Thonny):
+
+ili9341.py
+xpt2046.py
+xglcd_font.py (optional, for fonts)
+
+
+#Wiring
+| TJCTM24024-SPI Pin | Pico GPIO | Notes              |
+|--------------------|-----------|--------------------|
+| VCC                | 3V3       |                    |
+| GND                | GND       |                    |
+| CS                 | GP13      | TFT chip select    |
+| RESET              | GP14      |                    |
+| D/C                | GP15      |                    |
+| SDI (MOSI)         | GP7       | SPI0 TX            |
+| SCK                | GP6       | SPI0 SCK           |
+| LED                | 3V3       | Backlight always on|
+| SDO (MISO)         | —         | Not needed         |
+| T_CLK              | GP10      | SPI1 SCK           |
+| T_CS               | GP12      | Touch chip select  |
+| T_DIN              | GP11      | SPI1 TX            |
+| T_DO               | GP8       | SPI1 RX            |
+| T_IRQ              | GP0       | Touch interrupt    |
+
+Tips
+
+Baudrate: 40MHz works well for the display; keep the touch SPI at 1MHz (XPT2046 is slow).
+3.3V logic only — never connect signal lines to 5V or you'll damage the display.
+Thonny is the easiest way to transfer .py files to the Pico — just save directly to the device.
+If the screen stays white/blank, check your DC and CS pins first — those are the most common wiring mistakes.
