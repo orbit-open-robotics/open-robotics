@@ -8,7 +8,7 @@
 # This uses the ServoMotor class
 #
 from orbit.joystick_controller import JOYSTICK_MIN, JOYSTICK_MAX
-from orbit.joystick_controller import JOYSTICK_LEFT_X, JOYSTICK_RIGHT_BUTTON
+from orbit.joystick_controller import JOYSTICK_LEFT_Y, JOYSTICK_RIGHT_BUTTON
 from orbit import ServoMotor
 from orbit import RobotAccessory
 import uasyncio as asyncio
@@ -30,13 +30,13 @@ class Flipper(RobotAccessory):
         self._servo = servo
         
     def initialize(self) -> None:
-        self.lower()
+        self.lower(time = 0.5)
         
     def start_lift(self) -> None:
-        self._servo.start_decreasing()
+        self._servo.start_increasing()
         
     def start_lower(self) -> None:
-        self._servo.start_increasing()
+        self._servo.start_decreasing()
         
     def stop(self) -> None:
         self._servo.stop()
@@ -54,11 +54,15 @@ class Flipper(RobotAccessory):
         self._servo.off()
         
     def interpret(self, message) -> None:
+        print(f'flipper interpret: {message}')
         """Interpret JoystickController message"""
         values = message.split(',')
-        value  = int(values[JOYSTICK_LEFT_X])
+        value  = int(values[JOYSTICK_LEFT_Y])
+        print(f'left_x = {JOYSTICK_LEFT_Y}')
+        print(f'value = {value}')
         
         if value > 0.2 * JOYSTICK_MAX:
+            print('start lift')
             self.start_lift()
         elif value < 0.2 * JOYSTICK_MIN:
             self.start_lower()
