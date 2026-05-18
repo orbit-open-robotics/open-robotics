@@ -1,4 +1,4 @@
-__version__ = '2026_05_02'
+__version__ = '2026_05_18'
 
 from .buzzer import Buzzer
 from .led import Led
@@ -20,6 +20,7 @@ from .laser import Laser
 from .lifter import Lifter
 from .gripper import Gripper
 from .flipper import Flipper
+from .led_strip import LEDStrip
 
 try:
     from .web_client import WebClient
@@ -64,7 +65,8 @@ __all__=[
     'Laser',
     'Lifter',
     'Gripper',
-    'Flipper'
+    'Flipper',
+    'LEDStrip'
     ]
 
 def show_library() -> None:
