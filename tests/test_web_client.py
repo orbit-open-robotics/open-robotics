@@ -20,7 +20,7 @@ web_client: WebClient = WebClient(
     network_name = SSID,
     password = PASSWORD,
     subscribe_topic = TOPIC_SUBSCRIBE,
-    publish_topic = TOPIC_SUBSCRIBE,
+    publish_topic = TOPIC_PUBLISH,
     receive_command_func = receive_command,
     id="0")    
     

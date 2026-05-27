@@ -2,22 +2,15 @@
 # WebClient
 # Requires micropython.umqtt.simple library
 #
-import ubinascii, machine
 from network import WLAN, STA_IF
 from time import sleep
 from umqtt.simple import MQTTClient
-try:
-    from typing import Callable
-except ImportError:
-    pass  # MicroPython — annotations still work as strings
 
 
 # MQTT Information
 MQTT_BROKER = "broker.hivemq.com" 
 MQTT_PORT = 1883
 CLIENT_ID_BASE = "orbit_pico"
-
-client_id = "orbit_pico_" + ubinascii.hexlify(machine.unique_id()).decode()
 
 # TODO: should this be a derivation?
 # TODO: redirect callback so that strings are provided
@@ -38,7 +31,6 @@ class WebClient:
         self._execute_code = execute_code
         
         self._connect_to_wifi(network_name=network_name, password=password)
-        sleep(1)
         self._connect_mqtt()
         
     def _connect_to_wifi(self, network_name: str, password: str) -> None:
@@ -50,28 +42,14 @@ class WebClient:
             print(".", end="")
             sleep(0.5)
         print("\nConnected! IP:", wlan.ifconfig()[0])
-        ip, subnet, gateway, dns = wlan.ifconfig()
-        print(f"\nIP: {ip}  DNS: {dns}")
         
     def _connect_mqtt(self) -> None:
-        client_id: str = CLIENT_ID_BASE + ubinascii.hexlify(machine.unique_id()).decode()
-        print(f'Connecting to MQTT with client id {client_id}')
+        client_id: str = CLIENT_ID_BASE + self._id
         self.client: MQTTClient = MQTTClient(client_id, MQTT_BROKER, MQTT_PORT)
         self.client.set_callback(self._receive_command_bytes)
+        self.client.connect()
         print(f"Connected to broker: {MQTT_BROKER}")
-
-        for attempt in range(5):
-            try:
-                self.client.connect()
-                print(f"Connected to broker: {MQTT_BROKER}")
-                break
-            except OSError as e:
-                print(f"MQTT connect failed (attempt {attempt + 1}): {e}")
-                sleep(2)
-        else:
-            raise RuntimeError("Could not connect to MQTT broker after 5 attempts")
         
-        print(f"Connected to broker: {MQTT_BROKER}")
         if self._subscribe_topic :
             self.client.subscribe(self._subscribe_topic.encode())
             print(f"Subscribed to: {self._subscribe_topic}")
