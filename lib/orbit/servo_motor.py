@@ -101,6 +101,7 @@ class ServoMotor:
         if DEBUG: print(f'Setting {self._name} to {self._angle}')
     
     def move_to_angle(self, angle: float, time: float = 0.0, angle_inc: float = 1.0) -> None:
+        print(f'move_to_angle: time = {time}')
         """Move to the specified angle over the specified time in steps of angle_inc."""
         start_angle = self._angle
         num_steps: int = int(abs((angle - start_angle) / angle_inc)) # Counts now 
@@ -135,16 +136,16 @@ class ServoMotor:
 
     def home(self, time: float = 0.0, angle_inc: float = 1.0) -> None:
         """Move to the home angle."""
-        self.move_to_angle(self.angle_home, time=time, angle_inc=angle_inc)
+        self.move_to_angle(self._angle_home, time=time, angle_inc=angle_inc)
 
     def move_to_start(self, time: float = 0.0, angle_inc: float = 1.0) -> None:
         """Move to the start angle."""
-        if DEBUG: print(f'move_to_start {self.angle_start}')
-        self.move_to_angle(self.angle_start, time=time, angle_inc=angle_inc)
+        if DEBUG: print(f'move_to_start {self._angle_start}')
+        self.move_to_angle(self._angle_start, time=time, angle_inc=angle_inc)
 
     def move_to_end(self, time: float = 0.0, angle_inc: float = 1.0) -> None:
         """Move to the end angle."""
-        self.move_to_angle(self.angle_end, time=time, angle_inc=angle_inc)
+        self.move_to_angle(self._angle_end, time=time, angle_inc=angle_inc)
 
     def start_increasing(self) -> None:
         if not self._state == ServoMotor.INCREASING:

@@ -32,11 +32,11 @@ class Gripper(RobotAccessory):
     def initialize(self) -> None:
         self.close()
         
-    def open(self, time: float | None = None, angle_inc: float = 1.0) -> None:
+    def open(self, time: float = 0.0, angle_inc: float = 1.0) -> None:
         """Open the gripper completely"""
         self._servo.move_to_end(time = time, angle_inc = angle_inc)
         
-    def close(self, time: float | None = None, angle_inc: float = 1.0) -> None:
+    def close(self, time: float = 0.0, angle_inc: float = 1.0) -> None:
         """Close the gripper completely"""
         self._servo.move_to_start(time = time, angle_inc = angle_inc)
             

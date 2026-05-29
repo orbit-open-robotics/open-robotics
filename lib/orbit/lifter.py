@@ -43,11 +43,11 @@ class Lifter(RobotAccessory):
     def stop(self) -> None:
         self._servo.stop()
         
-    def lift(self, time: float | None = None, angle_inc: float = 1.0) -> None:
+    def lift(self, time: float = 0.0, angle_inc: float = 1.0) -> None:
         """Move gripper to the top"""
         self._servo.move_to_end(time=time, angle_inc=angle_inc)
         
-    def lower(self, time: float | None = None, angle_inc: float = 1.0) -> None:
+    def lower(self, time: float = 0.0, angle_inc: float = 1.0) -> None:
         """Move gripper to the bottom"""
         self._servo.move_to_start(time=time, angle_inc=angle_inc)
         
