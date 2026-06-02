@@ -1,5 +1,5 @@
-from orbit import PWMServoMotor, Gripper
-from time import sleep
+from orbit import Gripper
+# from time import sleep
 import uasyncio as asyncio
 
 async def test_movement():
@@ -29,34 +29,32 @@ async def test_async():
         test_movement()
         )
     
-#raw_angle_0 = 115.0
-raw_angle_0 = -5.0
-angle_start = 0.0
-angle_end = 65.0
-time = 0.5
-angle_inc = 1.0
+if __name__ == '__main__':
+    from time import sleep
     
-servo = PWMServoMotor(pin=17,
-                        raw_angle_0 = raw_angle_0,
-                        angle_start = angle_start,
-                        angle_end = angle_end,
-                        angle_home = angle_start)
-servo.home()
-    
-gripper = Gripper(servo)
-    
-print('Opening...', end='')
-gripper.open(time = time, angle_inc = angle_inc)
-print('open')
-sleep(2)
-print()
-    
-print('Closing...', end='')
-gripper.close(time = time, angle_inc = angle_inc)
-print('closed')
-sleep(2)
+    # Create the gripper
+    pin: int = 17,
+    raw_angle_0: float = 0.0
+    angle_start: float = 0.0
+    angle_end: float = 65.0
+    gripper = Gripper(pin, raw_angle_0, angle_start, angle_end)
+        
+    # Test variables
+    time:float = 0.5
+    angle_inc: float = 1.0
 
-asyncio.run(test_async())
+    print('Opening...', end='')
+    gripper.open(time = time, angle_inc = angle_inc)
+    print('open')
+    sleep(2)
+    print()
+        
+    print('Closing...', end='')
+    gripper.close(time = time, angle_inc = angle_inc)
+    print('closed')
+    sleep(2)
 
-print('off.')
-gripper.off()
+    asyncio.run(test_async())
+
+    print('off.')
+    gripper.off()

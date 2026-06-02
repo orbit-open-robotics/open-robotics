@@ -1,4 +1,4 @@
-from orbit import ServoMotor, Lifter
+from orbit import Lifter
 import uasyncio as asyncio
 
 async def test_movement():
@@ -29,43 +29,40 @@ async def test_async():
         )
 
 if __name__ == '__main__':
-    from orbit import PWMServoMotor
     from time import sleep
-    
+
+    # Create the lifter
     raw_angle_0 = 180.0
     angle_start = 0
     angle_end = 180
+
+    lifter = Lifter(pin=16,
+                    raw_angle_0 = raw_angle_0,
+                    angle_start = angle_start,
+                    angle_end = angle_end)
+    
+    # Test parameters
     time = 0.5
     angle_inc = 1.0
     
-    servo = PWMServoMotor(pin=16,
-                          raw_angle_0 = raw_angle_0,
-                          angle_start = angle_start,
-                          angle_end = angle_end,
-                          angle_home = angle_start,
-                          sign = -1)
-    servo.home()
-    
-    lifter = Lifter(servo)
-    
     print('lift...', end='')
     lifter.lift(time = time, angle_inc = angle_inc)
-    print('done')
+    print('lift done')
     sleep(2)
     
     print('lower...', end='')
     lifter.lower(time = time, angle_inc = angle_inc)
-    print('done')
+    print('lower done')
     sleep(2)
     
     print('lift...', end='')
     lifter.lift(time = time, angle_inc = angle_inc)
-    print('done')
+    print('lift done')
     sleep(2)
     
     print('lower...', end='')
     lifter.lower(time = time, angle_inc = angle_inc)
-    print('done')
+    print('lower done')
     sleep(2)
     
     asyncio.run(test_async())

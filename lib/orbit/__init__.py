@@ -1,4 +1,4 @@
-__version__ = '2026_05_28'
+__version__ = '2026_05_30'
 
 from .buzzer import Buzzer
 from .led import Led
