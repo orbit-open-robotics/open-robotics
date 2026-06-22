@@ -101,7 +101,7 @@ class ServoMotor:
         if DEBUG: print(f'Setting {self._name} to {self._angle}')
     
     def move_to_angle(self, angle: float, time: float = 0.0, angle_inc: float = 1.0) -> None:
-        print(f'move_to_angle: time = {time}')
+        if DEBUG: print(f'move_to_angle: time = {time}')
         """Move to the specified angle over the specified time in steps of angle_inc."""
         start_angle = self._angle
         num_steps: int = int(abs((angle - start_angle) / angle_inc)) # Counts now 

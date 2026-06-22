@@ -41,7 +41,7 @@ class PWMServoMotor(ServoMotor):
     # @override
     def _set_raw_angle(self, raw_angle: float) -> None:
         """Write the raw angle to the servo."""
-        print(f'_set_raw_angle {raw_angle}')
+        # print(f'_set_raw_angle {raw_angle}')
         us = ServoMotor.MIN_US + (raw_angle / 180.0) * (ServoMotor.MAX_US - ServoMotor.MIN_US)
         self._pwm.duty_ns(int(us * 1000.0))
 
