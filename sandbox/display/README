@@ -1,0 +1,10 @@
+# Display
+Create support for the ST7735 and ILI9341 display modules
+using the same methods.
+
+There will be a DisplayBase class that subclasses
+framebuf, and ST7735Display and ILI9341Display classes
+that subclass the DisplayBase class. The goal will
+be to have the basic methods manipulate the framebuf
+and then a show method to push the framebuf to the
+display.
