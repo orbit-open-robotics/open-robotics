@@ -8,9 +8,9 @@
 # and sends them to a connected client. It also controls a buzzer and an LED to indicate    
 # connection status.
 
-from ble_server import BLEServer
 from machine import Pin, ADC
-from buzzer import Buzzer
+from orbit.ble_server import BLEServer
+from orbit.buzzer import Buzzer
 
 # Bluetooth connection light
 led = Pin(6, Pin.OUT)

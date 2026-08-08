@@ -6,10 +6,11 @@
 # Author: Sam Linton
 # Description: Radio-controlled claw using a BLE client to receive messages from a joystick controller.
 #
-from orbit import BLEClient
 import uasyncio as asyncio
-from claw import Claw
 from time import sleep
+from orbit.ble_client import BLEClient
+from orbit.claw import Claw
+
 
 class RCClaw:
     def __init__(self, claw) -> None:

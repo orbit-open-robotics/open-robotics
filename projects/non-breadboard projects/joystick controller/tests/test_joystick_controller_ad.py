@@ -11,7 +11,7 @@ from machine import Pin, I2C
 from ads1x15 import ADS1115
 from time import sleep
 
-class JoystickControllerAd:
+class JoystickController:
     def __init__(self, i2c, left, right, debug)-> None:
         print('init')
         self.left_button = Pin(left, Pin.IN, Pin.PULL_UP)

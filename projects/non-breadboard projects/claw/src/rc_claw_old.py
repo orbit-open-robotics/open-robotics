@@ -9,11 +9,12 @@
 # Claw class that only takes lifter/gripper commands, and
 # Separate test classes, one including BLEClient and one without.
 #
-from orbit import BLEClient
 import uasyncio as asyncio
-from gripper import Gripper
-from lifter import Lifter
 from time import sleep
+from orbit.ble_client import BLEClient
+from orbit.gripper import Gripper
+from orbit.lifter import Lifter
+
 
 class RCClaw:
     LEFT_X = 0

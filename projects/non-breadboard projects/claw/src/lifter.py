@@ -7,8 +7,8 @@
 # Description: A class that runs the lifter mechanism of a claw.
 # This uses the ServoMotor class
 #
-from orbit import ServoMotor
 import uasyncio as asyncio
+from orbit.servo_motor import ServoMotor
 
 
 class Lifter:
