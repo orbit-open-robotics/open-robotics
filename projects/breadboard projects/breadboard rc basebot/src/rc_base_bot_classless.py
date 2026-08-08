@@ -9,11 +9,11 @@
 # The robot has two motors, an LED, and a buzzer.
 # The robot uses tank-drive with two joysticks.
 #
-from orbit import BLEClient
 from machine import Pin, PWM
-from orbit import Buzzer
 from time import sleep
-from orbit import DriveTrain
+from orbit.ble_client import BLEClient
+from orbit.buzzer import Buzzer
+from orbit.drive_train import DriveTrain
 
 # DriveTrain
 drive_train = DriveTrain()

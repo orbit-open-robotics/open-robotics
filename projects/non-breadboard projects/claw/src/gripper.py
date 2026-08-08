@@ -8,8 +8,8 @@
 # Description: A class that runs the gripper mechanism of a claw.
 # This version uses the ServoController class
 #
-from orbit import ServoMotor
 import uasyncio as asyncio
+from orbit.servo_motor import ServoMotor
 
 class Gripper:
     """Implement gripper mechanism"""

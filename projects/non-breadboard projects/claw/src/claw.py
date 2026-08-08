@@ -7,9 +7,10 @@
 # Description: claw, consisting of a lifter and a gripper
 #
 import uasyncio as asyncio
-from gripper import Gripper
-from lifter import Lifter
 from time import sleep
+from orbit.gripper import Gripper
+from orbit.lifter import Lifter
+
 
 class Claw:
     LEFT_X = 0

@@ -4,7 +4,9 @@
 #
 # Rename this to main to deploy on the Raspberry Pi Pico
 #
-from orbit import RCBaseBot, Flipper, PWMServoMotor
+from orbit.rc_base_bot import RCBaseBot
+from orbit.flipper import Flipper
+from orbit.pwm_servo_motor import PWMServoMotor
 
 def get_flipper() -> Flipper:
      

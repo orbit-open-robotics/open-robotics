@@ -4,7 +4,8 @@
 # Change the server_name to match your Joystick Controller
 # Rename this to main to deploy on the Raspberry Pi Pico
 #
-from orbit import RCBaseBot, BallLauncher
+from orbit.rc_base_bot import RCBaseBot
+from orbit.ball_launcher import BallLauncher
 
 if __name__ == "__main__":
     robot = RCBaseBot(server_name = 'JoystickController')
