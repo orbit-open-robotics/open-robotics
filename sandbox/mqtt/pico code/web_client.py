@@ -5,7 +5,6 @@
 from network import WLAN, STA_IF
 from time import sleep
 from umqtt.simple import MQTTClient
-from typing import Callable, Tuple
 
 # MQTT Information
 MQTT_BROKER = "broker.hivemq.com" 
@@ -18,7 +17,7 @@ class WebClient:
     def __init__(self,
                  network_name: str,
                  password: str,
-                 id: str,
+                 id: str, # id of current device, must be unique on the broker
                  subscribe_topic: str,
                  receive_message_func: Callable[[str, str], None] | None = None,
                  create_message_func: Callable[[], Tuple[str, str]] | None = None,
@@ -69,9 +68,12 @@ class WebClient:
     
 if __name__ == "__main__":
     # Network
-    SSID = "Room32"
-    PASSWORD = "password32"
-    
+    from orbit.secret_reader import SecretReader
+    secret_reader = SecretReader()
+    secret_reader.read()
+    network_name = secret_reader.get_value('network_name')
+    password = secret_reader.get_value('password')
+
     # Topics
     TOPIC_PUBLISH = "orbit_pico/data"     # Pico sends data here
     TOPIC_SUBSCRIBE = "orbit_pico/command"  # Pico listens for commands here
@@ -83,8 +85,8 @@ if __name__ == "__main__":
         return TOPIC_PUBLISH, 'hello'
              
     web_client: WebClient = WebClient(
-        network_name = SSID,
-        password = PASSWORD,
+        network_name = network_name,
+        password = password,
         id = "0",
         subscribe_topic = TOPIC_SUBSCRIBE,
         receive_message_func = receive_message,
